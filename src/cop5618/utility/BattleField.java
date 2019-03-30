@@ -52,6 +52,7 @@ public class BattleField {
 		
 	}
 	
+<<<<<<< HEAD
 	// Get tanklist
 	public ArrayList<Tank> getTanklist () {
 		
@@ -59,4 +60,6 @@ public class BattleField {
 		
 	}
 	
+=======
+>>>>>>> aade1cb548a56a86397a934c2eac4b222d33dcad
 }

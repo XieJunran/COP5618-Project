@@ -35,11 +35,14 @@ public class Tank {
 		
 		
 	}
+<<<<<<< HEAD
 	
 	// set direction the tank will move
 	public void setDirection() {
 		
 		
 	}
+=======
+>>>>>>> aade1cb548a56a86397a934c2eac4b222d33dcad
 
 }
