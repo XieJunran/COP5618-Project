@@ -200,28 +200,28 @@ public class BattleField {
 				if (tank.moved) {
 					switch (tank.direction) {
 					case UP: {
-						if (tank.x != 0 && tank.x - 1 == 0) {
+						if (tank.x != 0 && field[tank.x - 1][tank.y] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[--tank.x][tank.y] = tank.tankID;
 						}
 					}
 					break;
 					case DOWN: {
-						if (tank.x != BFSize - 1 && tank.x + 1 == 0) {
+						if (tank.x != BFSize - 1 && field[tank.x + 1][tank.y] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[++tank.x][tank.y] = tank.tankID;
 						}
 					}
 					break;
 					case LEFT: {
-						if (tank.y != 0 && tank.y - 1 == 0) {
+						if (tank.y != 0 && field[tank.x][tank.y - 1] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[tank.x][--tank.y] = tank.tankID;
 						}
 					}
 					break;
 					case RIGHT: {
-						if (tank.y != BFSize - 1 && tank.y - 1 == 0) {
+						if (tank.y != BFSize - 1 && field[tank.x][tank.y + 1] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[tank.x][++tank.y] = tank.tankID;
 						}
