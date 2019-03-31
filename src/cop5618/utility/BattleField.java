@@ -66,13 +66,13 @@ public class BattleField {
 	private void AddMissile (Tank tank) {
 		
 		switch (tank.direction) {
-		case UP: {
+		case LEFT: {
 			if (tank.x != 0) {
-				if (field[tank.x - 1][tank.y] == 0 || field[tank.x - 1][tank.y] == -3) {
+				if (field[tank.x - 1][tank.y] == 0 || field[tank.x - 1][tank.y] == WATER) {
 					Missile newMissile = new Missile(tank, this, tank.direction, tank.x - 1, tank.y);
 					missilelist.put(newMissile.missileID, newMissile);
 				}
-				else if (field[tank.x - 1][tank.y] == -1) {
+				else if (field[tank.x - 1][tank.y] == WALL) {
 					field[tank.x - 1][tank.y] = 0;
 				}
 				else if (field[tank.x - 1][tank.y] > 0) {
@@ -82,13 +82,13 @@ public class BattleField {
 			}
 		}
 		break;
-		case DOWN: {
+		case RIGHT: {
 			if (tank.x != BFSize - 1) {
-				if (field[tank.x + 1][tank.y] == 0 || field[tank.x + 1][tank.y] == -3) {
+				if (field[tank.x + 1][tank.y] == 0 || field[tank.x + 1][tank.y] == WATER) {
 					Missile newMissile = new Missile(tank, this, tank.direction, tank.x + 1, tank.y);
 					missilelist.put(newMissile.missileID, newMissile);
 				}
-				else if (field[tank.x + 1][tank.y] == -1) {
+				else if (field[tank.x + 1][tank.y] == WALL) {
 					field[tank.x + 1][tank.y] = 0;
 				}
 				else if (field[tank.x + 1][tank.y] > 0) {
@@ -98,13 +98,13 @@ public class BattleField {
 			}
 		}
 		break;
-		case LEFT: {
+		case UP: {
 			if (tank.y != 0) {
-				if (field[tank.x][tank.y - 1] == 0 || field[tank.x][tank.y - 1] == -3) {
+				if (field[tank.x][tank.y - 1] == 0 || field[tank.x][tank.y - 1] == WATER) {
 					Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y - 1);
 					missilelist.put(newMissile.missileID, newMissile);
 				}
-				else if (field[tank.x][tank.y - 1] == -1) {
+				else if (field[tank.x][tank.y - 1] == WALL) {
 					field[tank.x][tank.y - 1] = 0;
 				}
 				else if (field[tank.x][tank.y - 1] > 0) {
@@ -114,13 +114,13 @@ public class BattleField {
 			}
 		}
 		break;
-		case RIGHT: {
+		case DOWN: {
 			if (tank.y != BFSize - 1) {
-				if (field[tank.x][tank.y + 1] == 0 || field[tank.x][tank.y + 1] == -3) {
+				if (field[tank.x][tank.y + 1] == 0 || field[tank.x][tank.y + 1] == WATER) {
 					Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y + 1);
 					missilelist.put(newMissile.missileID, newMissile);
 				}
-				else if (field[tank.x][tank.y + 1] == -1) {
+				else if (field[tank.x][tank.y + 1] == WALL) {
 					field[tank.x][tank.y + 1] = 0;
 				}
 				else if (field[tank.x][tank.y + 1] > 0) {
@@ -199,28 +199,28 @@ public class BattleField {
 			if (tank.isAlive) {
 				if (tank.moved) {
 					switch (tank.direction) {
-					case UP: {
+					case LEFT: {
 						if (tank.x != 0 && field[tank.x - 1][tank.y] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[--tank.x][tank.y] = tank.tankID;
 						}
 					}
 					break;
-					case DOWN: {
+					case RIGHT: {
 						if (tank.x != BFSize - 1 && field[tank.x + 1][tank.y] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[++tank.x][tank.y] = tank.tankID;
 						}
 					}
 					break;
-					case LEFT: {
+					case UP: {
 						if (tank.y != 0 && field[tank.x][tank.y - 1] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[tank.x][--tank.y] = tank.tankID;
 						}
 					}
 					break;
-					case RIGHT: {
+					case DOWN: {
 						if (tank.y != BFSize - 1 && field[tank.x][tank.y + 1] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[tank.x][++tank.y] = tank.tankID;
