@@ -19,7 +19,7 @@ public class Game extends JPanel {
 	
 	private Image OffScreenImage;
 	
-	private BattleField battlefield;
+	private BattleField battlefield = new BattleField();
 	
 	static {
 		
@@ -261,15 +261,6 @@ public class Game extends JPanel {
 			}
 			
 	    }
-		
-	}
-	
-	public static void main (String[] args) {
-		
-		JFrame frame = new JFrame();
-		frame.setBounds(0, 0, 640, 640);
-		
-		frame.add(new Game());
 		
 	}
 	
