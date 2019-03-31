@@ -122,7 +122,7 @@ public class Game extends JPanel {
 			
 			for (int j = 0; j < BattleField.BFSize; j++) {
 				
-				int item  = battlefield.getCoordItem(i, j);
+				int item  = battlefield.getCoordItem(j, i);
 				
 				switch (item) {
 				case(BattleField.WALL): {
@@ -148,8 +148,7 @@ public class Game extends JPanel {
 				
 				default: {
 					
-					if (item <= 0 || item >= 5) break;
-					
+					if (item <= 0 || item > 5) break;
 					
 					Tank tank = battlefield.getTanklist().get(item - 1);
 					
@@ -193,7 +192,7 @@ public class Game extends JPanel {
 		
 		for (Missile missile: missilelist.values()) {
 			
-			g2d.drawImage(Images[23], missile.x * 10, missile.y * 10, missilew, missileh, null);
+			g2d.drawImage(Images[23], missile.y * 10, missile.x * 10, missilew, missileh, null);
 			
 		}
 		
