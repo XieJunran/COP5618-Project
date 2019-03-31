@@ -7,28 +7,35 @@ public class Tank {
 	}
 	
 	private static final Direction DEFAULT_DIRECTION = Direction.UP;	// Default deriction when a tank is created
-	private static int tankCounter = 0;										// Used to generate a unique tank id
+	private static int tankCounter = 0;									// Used to generate a unique tank id
 	
 	public int tankID;													// An unique id assigned to the tank
 	public BattleField battleField;										// Reference to the battle field
 	public Direction direction;											// Current direction of the tank
+	public int x;														// The current x coordinate of the tank
+	public int y;														// The current y coordinate of the tank
 	public boolean moved;												// If the tank is moved in current frame
 	public boolean fired;												// If the tank fires in current frame
 	public boolean isAlive;												// If the tank is still alive
 	
-	Tank(BattleField battleField) {
+	
+	Tank(BattleField battleField, int x, int y) {
 		this.tankID = ++tankCounter;
 		this.battleField = battleField;
 		this.direction = DEFAULT_DIRECTION;
+		this.x = x;
+		this.y = y;
 		this.moved = false;
 		this.fired = false;
 		this.isAlive = true;
 	}
 	
-	Tank(BattleField battleField, Direction direction) {
+	Tank(BattleField battleField, Direction direction, int x, int y) {
 		this.tankID = ++tankCounter;
 		this.battleField = battleField;
 		this.direction = direction;
+		this.x = x;
+		this.y = y;
 		this.moved = false;
 		this.fired = false;
 		this.isAlive = true;
