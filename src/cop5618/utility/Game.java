@@ -118,46 +118,49 @@ public class Game extends JPanel {
 				switch (item) {
 				case(BattleField.WALL): {
 					
-					g2d.drawImage(Images[20], i, j, 10, 10, null);
+					g2d.drawImage(Images[20], i * 10, j * 10, 10, 10, null);
 					
 				}
 				break;
 				
 				case(BattleField.STELL_WALL): {
 					
-					g2d.drawImage(Images[21], i, j, 10, 10, null);
+					g2d.drawImage(Images[21], i * 10, j * 10, 10, 10, null);
 					
 				}
 				break;
 				
 				case(BattleField.WATER): {
 					
-					g2d.drawImage(Images[22], i, j, 10, 10, null);
+					g2d.drawImage(Images[22], i * 10, j * 10, 10, 10, null);
 					
 				}
 				break;
 				
 				default: {
 					
-					Tank tank = battlefield.getTanklist().get(item);
+					if (item <= 0 || item >= 5) break;
+					
+					Tank tank = battlefield.getTanklist().get(item - 1);
+					
 					
 					if(tank.isAlive) {
 						
 						if (tank.direction == Tank.Direction.LEFT) {
 							
-							g2d.drawImage(Images[(tank.tankID - 1) * 4], i, j, 10, 10, null);
+							g2d.drawImage(Images[(tank.tankID - 1) * 4], i * 10, j * 10, 10, 10, null);
 							
 						} else if (tank.direction == Tank.Direction.RIGHT) {
 							
-							g2d.drawImage(Images[(tank.tankID - 1) * 4 + 1], i, j, 10, 10, null);
+							g2d.drawImage(Images[(tank.tankID - 1) * 4 + 1], i * 10, j * 10, 10, 10, null);
 							
 						} else if (tank.direction == Tank.Direction.UP) {
 							
-							g2d.drawImage(Images[(tank.tankID - 1) * 4 + 2], i, j, 10, 10, null);
+							g2d.drawImage(Images[(tank.tankID - 1) * 4 + 2], i * 10, j * 10, 10, 10, null);
 							
 						} else {
 							
-							g2d.drawImage(Images[(tank.tankID - 1) * 4 + 3], i, j, 10, 10, null);
+							g2d.drawImage(Images[(tank.tankID - 1) * 4 + 3], i * 10, j * 10, 10, 10, null);
 							
 						}
 					
@@ -175,7 +178,7 @@ public class Game extends JPanel {
 		
 		for (Missile missile: missilelist.values()) {
 			
-			g2d.drawImage(Images[23], missile.x, missile.y, 10, 10, null);
+			g2d.drawImage(Images[23], missile.x * 10, missile.y * 10, 10, 10, null);
 			
 		}
 		
@@ -192,7 +195,7 @@ public class Game extends JPanel {
 		}
 		
 		Graphics gosi = OffScreenImage.getGraphics();
-		Color c= gosi.getColor();
+		Color c = gosi.getColor();
 		
 		gosi.setColor(Color.BLACK);
 		gosi.fillRect(0, 0, 640, 640);

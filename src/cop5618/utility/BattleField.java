@@ -144,24 +144,29 @@ public class BattleField {
 			x = 0;
 			y = 0;
 		}
+		break;
 		case 2: {
 			x = 0;
 			y = BFSize - 1;
 		}
+		break;
 		case 3: {
 			x = BFSize - 1;
 			y = 0;
 		}
+		break;
 		case 4: {
 			x = BFSize - 1;
 			y = BFSize - 1;
 		}
+		break;
 		default: {
 			x = 0;
 			y = 0;
 		}
 		}
 		
+		field[x][y] = tankid;
 		Tank newTank = new Tank(this, x, y);
 		tanklist.add(newTank);
 		
@@ -228,8 +233,12 @@ public class BattleField {
 				if (tank.fired) {
 					AddMissile(tank);
 				}
+				
 			}
+			
 		}
+		
+		// Print();
 		
 	}
 	
@@ -256,6 +265,22 @@ public class BattleField {
 	public Map<Integer, Missile> getMissilelist() {
 		
 		return missilelist;
+	}
+	
+	public void Print () {
+		
+		for (int i = 0; i < BFSize; i++) {
+			
+			for (int j = 0; j < BFSize; j++) {
+				
+				System.out.print(field[i][j] + " ");
+				
+			}
+			
+			System.out.println();
+			
+		}
+		
 	}
 	
 }
