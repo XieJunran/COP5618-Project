@@ -2,7 +2,6 @@ package cop5618.utility;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class BattleField {
 	
@@ -21,7 +20,7 @@ public class BattleField {
 	private int field[][] = new int[BFSize][BFSize];
 	
 	private List<Tank> tanklist= new ArrayList<Tank>();
-	private Map<Integer, Missile> missilelist = new ConcurrentHashMap<Integer, Missile>();
+	private Map<Integer, Missile> missilelist = new HashMap<Integer, Missile>();
 	/*
 	public BattleField (Integer whichMap) {
 		
@@ -203,32 +202,34 @@ public class BattleField {
 					case UP: {
 						if (tank.x != 0 && tank.x - 1 == 0) {
 							field[tank.x][tank.y] = 0;
-							--tank.x;
+							field[--tank.x][tank.y] = tank.tankID;
 						}
 					}
 					break;
 					case DOWN: {
 						if (tank.x != BFSize - 1 && tank.x + 1 == 0) {
 							field[tank.x][tank.y] = 0;
-							++tank.x;
+							field[++tank.x][tank.y] = tank.tankID;
 						}
 					}
 					break;
 					case LEFT: {
 						if (tank.y != 0 && tank.y - 1 == 0) {
 							field[tank.x][tank.y] = 0;
-							--tank.y;
+							field[tank.x][--tank.y] = tank.tankID;
 						}
 					}
 					break;
 					case RIGHT: {
 						if (tank.y != BFSize - 1 && tank.y - 1 == 0) {
 							field[tank.x][tank.y] = 0;
-							++tank.y;
+							field[tank.x][++tank.y] = tank.tankID;
 						}
 					}
 					break;
 					}
+					
+					tank.moved = false;
 				}
 				
 				if (tank.fired) {
