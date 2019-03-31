@@ -1,10 +1,7 @@
 package cop5618.utility;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 public class BattleField {
 	
@@ -25,42 +22,146 @@ public class BattleField {
 	private List<Tank> tanklist= new ArrayList<Tank>();
 	private Map<Integer, Missile> missilelist = new HashMap<Integer, Missile>();
 	/*
-	public void AddMissile (Missile missile) {
+	public BattleField (Integer whichMap) {
 		
+		String filename = whichMap.toString() + ".map";
+		File mapConfig = new File(filename);
+		BufferedReader reader = null;
 		
+		try {
+			reader = new BufferedReader(new FileReader(mapConfig));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		String curLine = null;
+		
+		try {
+			int rowIndex = 0;
+			
+			while ((curLine = reader.readLine()) != null) {
+				
+				String [] tmpLine = curLine.split(" ");
+				for (int i = 0; i < tmpLine.length; ++i) {
+					field[rowIndex][i] = Integer.parseInt(tmpLine[i]);
+				}
+				++rowIndex;
+				
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                	e1.printStackTrace();
+                }
+            }
+        }
 		
 	}
 	*/
+	
+	private void AddMissile (Tank tank) {
+		
+		switch (tank.direction) {
+		case UP: {
+			if (tank.x != 0) {
+				if (field[tank.x - 1][tank.y] == 0 || field[tank.x - 1][tank.y] == -3) {
+					Missile newMissile = new Missile(tank, this, tank.direction, tank.x - 1, tank.y);
+					missilelist.put(newMissile.missileID, newMissile);
+				}
+				else if (field[tank.x - 1][tank.y] == -1) {
+					field[tank.x - 1][tank.y] = 0;
+				}
+				else if (field[tank.x - 1][tank.y] > 0) {
+					tanklist.get(field[tank.x - 1][tank.y] - 1).isAlive = false;
+					field[tank.x - 1][tank.y] = 0;
+				}
+			}
+		}
+		break;
+		case DOWN: {
+			if (tank.x != BFSize - 1) {
+				if (field[tank.x + 1][tank.y] == 0 || field[tank.x + 1][tank.y] == -3) {
+					Missile newMissile = new Missile(tank, this, tank.direction, tank.x + 1, tank.y);
+					missilelist.put(newMissile.missileID, newMissile);
+				}
+				else if (field[tank.x + 1][tank.y] == -1) {
+					field[tank.x + 1][tank.y] = 0;
+				}
+				else if (field[tank.x + 1][tank.y] > 0) {
+					tanklist.get(field[tank.x + 1][tank.y] - 1).isAlive = false;
+					field[tank.x + 1][tank.y] = 0;
+				}
+			}
+		}
+		break;
+		case LEFT: {
+			if (tank.y != 0) {
+				if (field[tank.x][tank.y - 1] == 0 || field[tank.x][tank.y - 1] == -3) {
+					Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y - 1);
+					missilelist.put(newMissile.missileID, newMissile);
+				}
+				else if (field[tank.x][tank.y - 1] == -1) {
+					field[tank.x][tank.y - 1] = 0;
+				}
+				else if (field[tank.x][tank.y - 1] > 0) {
+					tanklist.get(field[tank.x][tank.y - 1] - 1).isAlive = false;
+					field[tank.x][tank.y - 1] = 0;
+				}
+			}
+		}
+		break;
+		case RIGHT: {
+			if (tank.y != BFSize - 1) {
+				if (field[tank.x][tank.y + 1] == 0 || field[tank.x][tank.y + 1] == -3) {
+					Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y + 1);
+					missilelist.put(newMissile.missileID, newMissile);
+				}
+				else if (field[tank.x][tank.y + 1] == -1) {
+					field[tank.x][tank.y + 1] = 0;
+				}
+				else if (field[tank.x][tank.y + 1] > 0) {
+					tanklist.get(field[tank.x][tank.y + 1] - 1).isAlive = false;
+					field[tank.x][tank.y + 1] = 0;
+				}
+			}
+		}
+		break;
+		}
+		
+	}
+	
 	// Add a tank into tanklist
 	public void AddTank (int tankid) {
-		int x, y;
-		switch (tankid) {
 		
-		case 0: {
-			x = 1;
-			y = 1;
-		}
-		break;
+		int x, y;
+		
+		switch (tankid) {
 		case 1: {
-			x = 1;
-			y = BFSize - 2;
+			x = 0;
+			y = 0;
 		}
-		break;
 		case 2: {
-			x = BFSize - 2;
-			y = 1;
+			x = 0;
+			y = BFSize - 1;
 		}
-		break;
 		case 3: {
-			x = BFSize - 2;
-			y = BFSize - 2;
+			x = BFSize - 1;
+			y = 0;
 		}
-		break;
+		case 4: {
+			x = BFSize - 1;
+			y = BFSize - 1;
+		}
 		default: {
-			x = 1;
-			y = 1;
+			x = 0;
+			y = 0;
 		}
 		}
+		
 		Tank newTank = new Tank(this, x, y);
 		tanklist.add(newTank);
 		
@@ -70,10 +171,13 @@ public class BattleField {
 	public void UpdateBattleField () {
 		
 		Iterator<Map.Entry<Integer, Missile>> entries = missilelist.entrySet().iterator();
+		
 		while (entries.hasNext()) {
 			Map.Entry<Integer, Missile> entry = entries.next();
 			Missile missile = entry.getValue();
+			
 			missile.move();
+			
 			if (missile.x < 0 || missile.x >= BFSize || missile.y < 0 || missile.y >= BFSize || field[missile.x][missile.y] == -2) missilelist.remove(entry.getKey());
 			else if (field[missile.x][missile.y] == -1) {
 				field[missile.x][missile.y] = 0;
@@ -122,94 +226,23 @@ public class BattleField {
 				}
 				
 				if (tank.fired) {
-					switch (tank.direction) {
-					case UP: {
-						if (tank.x != 0) {
-							if (field[tank.x - 1][tank.y] == 0 || field[tank.x - 1][tank.y] == -3) {
-								Missile newMissile = new Missile(tank, this, tank.direction, tank.x - 1, tank.y);
-								missilelist.put(newMissile.missileID, newMissile);
-							}
-							else if (field[tank.x - 1][tank.y] == -1) {
-								field[tank.x - 1][tank.y] = 0;
-							}
-							else if (field[tank.x - 1][tank.y] > 0) {
-								tanklist.get(field[tank.x - 1][tank.y] - 1).isAlive = false;
-								field[tank.x - 1][tank.y] = 0;
-							}
-						}
-					}
-					break;
-					case DOWN: {
-						if (tank.x != BFSize - 1) {
-							if (field[tank.x + 1][tank.y] == 0 || field[tank.x + 1][tank.y] == -3) {
-								Missile newMissile = new Missile(tank, this, tank.direction, tank.x + 1, tank.y);
-								missilelist.put(newMissile.missileID, newMissile);
-							}
-							else if (field[tank.x + 1][tank.y] == -1) {
-								field[tank.x + 1][tank.y] = 0;
-							}
-							else if (field[tank.x + 1][tank.y] > 0) {
-								tanklist.get(field[tank.x + 1][tank.y] - 1).isAlive = false;
-								field[tank.x + 1][tank.y] = 0;
-							}
-						}
-					}
-					break;
-					case LEFT: {
-						if (tank.y != 0) {
-							if (field[tank.x][tank.y - 1] == 0 || field[tank.x][tank.y - 1] == -3) {
-								Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y - 1);
-								missilelist.put(newMissile.missileID, newMissile);
-							}
-							else if (field[tank.x][tank.y - 1] == -1) {
-								field[tank.x][tank.y - 1] = 0;
-							}
-							else if (field[tank.x][tank.y - 1] > 0) {
-								tanklist.get(field[tank.x][tank.y - 1] - 1).isAlive = false;
-								field[tank.x][tank.y - 1] = 0;
-							}
-						}
-					}
-					break;
-					case RIGHT: {
-						if (tank.y != BFSize - 1) {
-							if (field[tank.x][tank.y + 1] == 0 || field[tank.x][tank.y + 1] == -3) {
-								Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y + 1);
-								missilelist.put(newMissile.missileID, newMissile);
-							}
-							else if (field[tank.x][tank.y + 1] == -1) {
-								field[tank.x][tank.y + 1] = 0;
-							}
-							else if (field[tank.x][tank.y + 1] > 0) {
-								tanklist.get(field[tank.x][tank.y + 1] - 1).isAlive = false;
-								field[tank.x][tank.y + 1] = 0;
-							}
-						}
-					}
-					break;
-					}
+					AddMissile(tank);
 				}
 			}
 		}
 		
 	}
-	/*
+	
 	public int[][] getField () {
 		
 		return field;
 		
 	}
-	*/
+	
 	// Get what is in the coord
 	public int getCoordItem (int x, int y) {
 		
 		return field[x][y];
-		
-	}
-	
-	public void setCoordItem (int x, int y, int item) {
-		
-		field[x][y] = item;
 		
 	}
 	
@@ -223,7 +256,6 @@ public class BattleField {
 	public Map<Integer, Missile> getMissilelist() {
 		
 		return missilelist;
-		
 	}
 	
 }
