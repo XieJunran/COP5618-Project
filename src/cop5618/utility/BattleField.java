@@ -98,7 +98,7 @@ public class BattleField {
 			}
 		}
 		break;
-		case UP: {
+		case DOWN: {
 			if (tank.y != 0) {
 				if (field[tank.x][tank.y - 1] == 0 || field[tank.x][tank.y - 1] == WATER) {
 					Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y - 1);
@@ -114,7 +114,7 @@ public class BattleField {
 			}
 		}
 		break;
-		case DOWN: {
+		case UP: {
 			if (tank.y != BFSize - 1) {
 				if (field[tank.x][tank.y + 1] == 0 || field[tank.x][tank.y + 1] == WATER) {
 					Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y + 1);
@@ -213,14 +213,14 @@ public class BattleField {
 						}
 					}
 					break;
-					case UP: {
+					case DOWN: {
 						if (tank.y != 0 && field[tank.x][tank.y - 1] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[tank.x][--tank.y] = tank.tankID;
 						}
 					}
 					break;
-					case DOWN: {
+					case UP: {
 						if (tank.y != BFSize - 1 && field[tank.x][tank.y + 1] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[tank.x][++tank.y] = tank.tankID;

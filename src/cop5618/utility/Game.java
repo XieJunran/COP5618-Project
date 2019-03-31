@@ -127,21 +127,21 @@ public class Game extends JPanel {
 				switch (item) {
 				case(BattleField.WALL): {
 					
-					g2d.drawImage(Images[20], i * 10, j * 10, imgw, imgh, null);
+					g2d.drawImage(Images[20], j * 10, i * 10, imgw, imgh, null);
 					
 				}
 				break;
 				
 				case(BattleField.STELL_WALL): {
 					
-					g2d.drawImage(Images[21], i * 10, j * 10, imgw, imgh, null);
+					g2d.drawImage(Images[21], j * 10, i * 10, imgw, imgh, null);
 					
 				}
 				break;
 				
 				case(BattleField.WATER): {
 					
-					g2d.drawImage(Images[22], i * 10, j * 10, imgw, imgh, null);
+					g2d.drawImage(Images[22], j * 10, i * 10, imgw, imgh, null);
 					
 				}
 				break;
@@ -152,28 +152,28 @@ public class Game extends JPanel {
 					
 					Tank tank = battlefield.getTanklist().get(item - 1);
 					
-					System.out.println(item + " at " + i + " " + j);
+					System.out.println(item + " at " + j + " " + i);
 					
 					if(tank.isAlive) {
 						
 						if (tank.direction == Tank.Direction.LEFT) {
 							
-							g2d.drawImage(Images[(item - 1) * 4], i * 10, j * 10, imgw, imgh, null);
+							g2d.drawImage(Images[(item - 1) * 4], j * 10, i * 10, imgw, imgh, null);
 							// g2d.drawImage(Images[(item - 1) * 4], i, j, imgw, imgh, null);
 							
 						} else if (tank.direction == Tank.Direction.RIGHT) {
 							
-							g2d.drawImage(Images[(item - 1) * 4 + 1], i * 10, j * 10, imgw, imgh, null);
+							g2d.drawImage(Images[(item - 1) * 4 + 1], j * 10, i * 10, imgw, imgh, null);
 							// g2d.drawImage(Images[(item - 1) * 4 + 1], i, j, imgw, imgh, null);
 							
 						} else if (tank.direction == Tank.Direction.UP) {
 							
-							g2d.drawImage(Images[(item - 1) * 4 + 2], i * 10, j * 10, imgw, imgh, null);
+							g2d.drawImage(Images[(item - 1) * 4 + 2], j * 10, i * 10, imgw, imgh, null);
 							// g2d.drawImage(Images[(item - 1) * 4 + 2], i, j, imgw, imgh, null);
 							
 						} else {
 							
-							g2d.drawImage(Images[(item - 1) * 4 + 3], i * 10, j * 10, imgw, imgh, null);
+							g2d.drawImage(Images[(item - 1) * 4 + 3], j * 10, i * 10, imgw, imgh, null);
 							// g2d.drawImage(Images[(item - 1) * 4 + 3], i, j, imgw, imgh, null);
 							
 						}
@@ -192,7 +192,7 @@ public class Game extends JPanel {
 		
 		for (Missile missile: missilelist.values()) {
 			
-			g2d.drawImage(Images[23], (BattleField.BFSize - 1 - missile.y) * 10, missile.x * 10, missilew, missileh, null);
+			g2d.drawImage(Images[23], missile.x * 10, (BattleField.BFSize - 1 - missile.y) * 10, missilew, missileh, null);
 			
 		}
 		
