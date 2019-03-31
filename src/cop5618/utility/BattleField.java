@@ -2,7 +2,6 @@ package cop5618.utility;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class BattleField {
 	
@@ -21,7 +20,7 @@ public class BattleField {
 	private int field[][] = new int[BFSize][BFSize];
 	
 	private List<Tank> tanklist= new ArrayList<Tank>();
-	private Map<Integer, Missile> missilelist = new ConcurrentHashMap<Integer, Missile>();
+	private Map<Integer, Missile> missilelist = new HashMap<Integer, Missile>();
 	/*
 	public BattleField (Integer whichMap) {
 		
@@ -187,12 +186,12 @@ public class BattleField {
 			if (missile.x < 0 || missile.x >= BFSize || missile.y < 0 || missile.y >= BFSize || field[missile.x][missile.y] == -2) missilelist.remove(entry.getKey());
 			else if (field[missile.x][missile.y] == -1) {
 				field[missile.x][missile.y] = 0;
-				missilelist.remove(entry.getKey());
+				entries.remove();
 			}
 			else if (field[missile.x][missile.y] > 0) {
 				tanklist.get(field[missile.x][missile.y] - 1).isAlive = false;
 				field[missile.x][missile.y] = 0;
-				missilelist.remove(entry.getKey());
+				entries.remove();
 			}
 		}
 		
