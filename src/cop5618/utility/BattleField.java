@@ -35,19 +35,19 @@ public class BattleField {
 	public void AddTank (int tankid) {
 		int x, y;
 		switch (tankid) {
-		case 0: {
+		case 1: {
 			x = 0;
 			y = 0;
 		}
-		case 1: {
+		case 2: {
 			x = 0;
 			y = BFSize - 1;
 		}
-		case 2: {
+		case 3: {
 			x = BFSize - 1;
 			y = 0;
 		}
-		case 3: {
+		case 4: {
 			x = BFSize - 1;
 			y = BFSize - 1;
 		}
@@ -75,7 +75,7 @@ public class BattleField {
 				missilelist.remove(entry.getKey());
 			}
 			else if (field[missile.x][missile.y] > 0) {
-				tanklist.get(field[missile.x][missile.y]).isAlive = false;
+				tanklist.get(field[missile.x][missile.y] - 1).isAlive = false;
 				field[missile.x][missile.y] = 0;
 				missilelist.remove(entry.getKey());
 			}
@@ -128,7 +128,7 @@ public class BattleField {
 								field[tank.x - 1][tank.y] = 0;
 							}
 							else if (field[tank.x - 1][tank.y] > 0) {
-								tanklist.get(field[tank.x - 1][tank.y]).isAlive = false;
+								tanklist.get(field[tank.x - 1][tank.y] - 1).isAlive = false;
 								field[tank.x - 1][tank.y] = 0;
 							}
 						}
@@ -144,7 +144,7 @@ public class BattleField {
 								field[tank.x + 1][tank.y] = 0;
 							}
 							else if (field[tank.x + 1][tank.y] > 0) {
-								tanklist.get(field[tank.x + 1][tank.y]).isAlive = false;
+								tanklist.get(field[tank.x + 1][tank.y] - 1).isAlive = false;
 								field[tank.x + 1][tank.y] = 0;
 							}
 						}
@@ -160,7 +160,7 @@ public class BattleField {
 								field[tank.x][tank.y - 1] = 0;
 							}
 							else if (field[tank.x][tank.y - 1] > 0) {
-								tanklist.get(field[tank.x][tank.y - 1]).isAlive = false;
+								tanklist.get(field[tank.x][tank.y - 1] - 1).isAlive = false;
 								field[tank.x][tank.y - 1] = 0;
 							}
 						}
@@ -176,7 +176,7 @@ public class BattleField {
 								field[tank.x][tank.y + 1] = 0;
 							}
 							else if (field[tank.x][tank.y + 1] > 0) {
-								tanklist.get(field[tank.x][tank.y + 1]).isAlive = false;
+								tanklist.get(field[tank.x][tank.y + 1] - 1).isAlive = false;
 								field[tank.x][tank.y + 1] = 0;
 							}
 						}
@@ -207,6 +207,11 @@ public class BattleField {
 		
 		return tanklist;
 		
+	}
+	
+	public Map<Integer, Missile> getMissilelist() {
+		
+		return missilelist;
 	}
 	
 }
