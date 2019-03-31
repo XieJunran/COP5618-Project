@@ -15,6 +15,15 @@ import javax.swing.JFrame;
 @SuppressWarnings("serial")
 public class Game extends JPanel {
 	
+	private static final int imgw = 40;
+	private static final int imgh = 40;
+	
+	private static final int missilew = 10;
+	private static final int missileh = 10;
+	
+	private static final int scrw = 800;
+	private static final int scrh = 800;
+	
 	private static Image Images[] = new Image[24];
 	
 	private Image OffScreenImage;
@@ -56,7 +65,7 @@ public class Game extends JPanel {
 		
 		setForeground(Color.WHITE);
 		setBackground(Color.BLACK);
-		setBounds(0, 0, 640, 640);
+		setBounds(0, 0, scrw, scrh);
 		setLayout(null);
 		
 		battlefield.AddTank(1);
@@ -118,21 +127,21 @@ public class Game extends JPanel {
 				switch (item) {
 				case(BattleField.WALL): {
 					
-					g2d.drawImage(Images[20], i * 10, j * 10, 10, 10, null);
+					g2d.drawImage(Images[20], i * 10, j * 10, imgw, imgh, null);
 					
 				}
 				break;
 				
 				case(BattleField.STELL_WALL): {
 					
-					g2d.drawImage(Images[21], i * 10, j * 10, 10, 10, null);
+					g2d.drawImage(Images[21], i * 10, j * 10, imgw, imgh, null);
 					
 				}
 				break;
 				
 				case(BattleField.WATER): {
 					
-					g2d.drawImage(Images[22], i * 10, j * 10, 10, 10, null);
+					g2d.drawImage(Images[22], i * 10, j * 10, imgw, imgh, null);
 					
 				}
 				break;
@@ -141,26 +150,32 @@ public class Game extends JPanel {
 					
 					if (item <= 0 || item >= 5) break;
 					
+					
 					Tank tank = battlefield.getTanklist().get(item - 1);
 					
+					System.out.println(item + " at " + i + " " + j);
 					
 					if(tank.isAlive) {
 						
 						if (tank.direction == Tank.Direction.LEFT) {
 							
-							g2d.drawImage(Images[(tank.tankID - 1) * 4], i * 10, j * 10, 10, 10, null);
+							g2d.drawImage(Images[(item - 1) * 4], i * 10, j * 10, imgw, imgh, null);
+							// g2d.drawImage(Images[(item - 1) * 4], i, j, imgw, imgh, null);
 							
 						} else if (tank.direction == Tank.Direction.RIGHT) {
 							
-							g2d.drawImage(Images[(tank.tankID - 1) * 4 + 1], i * 10, j * 10, 10, 10, null);
+							g2d.drawImage(Images[(item - 1) * 4 + 1], i * 10, j * 10, imgw, imgh, null);
+							// g2d.drawImage(Images[(item - 1) * 4 + 1], i, j, imgw, imgh, null);
 							
 						} else if (tank.direction == Tank.Direction.UP) {
 							
-							g2d.drawImage(Images[(tank.tankID - 1) * 4 + 2], i * 10, j * 10, 10, 10, null);
+							g2d.drawImage(Images[(item - 1) * 4 + 2], i * 10, j * 10, imgw, imgh, null);
+							// g2d.drawImage(Images[(item - 1) * 4 + 2], i, j, imgw, imgh, null);
 							
 						} else {
 							
-							g2d.drawImage(Images[(tank.tankID - 1) * 4 + 3], i * 10, j * 10, 10, 10, null);
+							g2d.drawImage(Images[(item - 1) * 4 + 3], i * 10, j * 10, imgw, imgh, null);
+							// g2d.drawImage(Images[(item - 1) * 4 + 3], i, j, imgw, imgh, null);
 							
 						}
 					
@@ -178,7 +193,7 @@ public class Game extends JPanel {
 		
 		for (Missile missile: missilelist.values()) {
 			
-			g2d.drawImage(Images[23], missile.x * 10, missile.y * 10, 10, 10, null);
+			g2d.drawImage(Images[23], missile.x * 10, missile.y * 10, missilew, missileh, null);
 			
 		}
 		
@@ -190,7 +205,7 @@ public class Game extends JPanel {
 		
 		if (OffScreenImage == null) {
 			
-			OffScreenImage = this.createImage(640, 640);
+			OffScreenImage = this.createImage(scrw, scrh);
 			
 		}
 		
@@ -198,7 +213,7 @@ public class Game extends JPanel {
 		Color c = gosi.getColor();
 		
 		gosi.setColor(Color.BLACK);
-		gosi.fillRect(0, 0, 640, 640);
+		gosi.fillRect(0, 0, scrw, scrh);
 		gosi.setColor(c);
 		
 		g.drawImage(OffScreenImage, 0, 0, null);

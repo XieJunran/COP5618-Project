@@ -14,6 +14,9 @@ import cop5618.utility.Game;
 @SuppressWarnings("serial")
 public class SinglePlayerClient extends JFrame {
 	
+	private static final int scrw = 800;
+	private static final int scrh = 800;
+	
 	private JFrame play;
 	private Game game = null;
 	
@@ -69,7 +72,7 @@ public class SinglePlayerClient extends JFrame {
 	private SinglePlayerClient() {
 		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(0, 0, 640, 640);
+		setBounds(0, 0, 800, 800);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
