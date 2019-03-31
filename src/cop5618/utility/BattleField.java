@@ -35,7 +35,7 @@ public class BattleField {
 	public void AddTank (int tankid) {
 		int x, y;
 		switch (tankid) {
-<<<<<<< HEAD
+		
 		case 0: {
 			x = 1;
 			y = 1;
@@ -54,23 +54,6 @@ public class BattleField {
 		case 3: {
 			x = BFSize - 2;
 			y = BFSize - 2;
-=======
-		case 1: {
-			x = 0;
-			y = 0;
-		}
-		case 2: {
-			x = 0;
-			y = BFSize - 1;
-		}
-		case 3: {
-			x = BFSize - 1;
-			y = 0;
-		}
-		case 4: {
-			x = BFSize - 1;
-			y = BFSize - 1;
->>>>>>> 9536d6d30a2fa035c6066761d9b13051325fd717
 		}
 		break;
 		default: {
@@ -240,10 +223,7 @@ public class BattleField {
 	public Map<Integer, Missile> getMissilelist() {
 		
 		return missilelist;
-<<<<<<< HEAD
 		
-=======
->>>>>>> 9536d6d30a2fa035c6066761d9b13051325fd717
 	}
 	
 }

@@ -4,47 +4,49 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class Game extends JPanel {
 	
 	private static Image Images[] = new Image[24];
 	
 	private Image OffScreenImage;
 	
-	private int tankid = 1;
-	
 	private BattleField battlefield;
 	
 	static {
 		
-		Images[0] = new ImageIcon(Game.class.getResource("/img/P1L.gif")).getImage();
-		Images[1] = new ImageIcon(Game.class.getResource("/img/P1R.gif")).getImage();
-		Images[2] = new ImageIcon(Game.class.getResource("/img/P1U.gif")).getImage();
-		Images[3] = new ImageIcon(Game.class.getResource("/img/P1D.gif")).getImage();
-		Images[4] = new ImageIcon(Game.class.getResource("/img/P2L.gif")).getImage();
-		Images[5] = new ImageIcon(Game.class.getResource("/img/P2R.gif")).getImage();
-		Images[6] = new ImageIcon(Game.class.getResource("/img/P2U.gif")).getImage();
-		Images[7] = new ImageIcon(Game.class.getResource("/img/P2D.gif")).getImage();
-		Images[8] = new ImageIcon(Game.class.getResource("/img/P3L.gif")).getImage();
-		Images[9] = new ImageIcon(Game.class.getResource("/img/P3R.gif")).getImage();
-		Images[10] = new ImageIcon(Game.class.getResource("/img/P3U.gif")).getImage();
-		Images[11] = new ImageIcon(Game.class.getResource("/img/P3D.gif")).getImage();
-		Images[12] = new ImageIcon(Game.class.getResource("/img/P4L.gif")).getImage();
-		Images[13] = new ImageIcon(Game.class.getResource("/img/P4R.gif")).getImage();
-		Images[14] = new ImageIcon(Game.class.getResource("/img/P4U.gif")).getImage();
-		Images[15] = new ImageIcon(Game.class.getResource("/img/P4D.gif")).getImage();
-		Images[16] = new ImageIcon(Game.class.getResource("/img/P5L.gif")).getImage();
-		Images[17] = new ImageIcon(Game.class.getResource("/img/P5R.gif")).getImage();
-		Images[18] = new ImageIcon(Game.class.getResource("/img/P5U.gif")).getImage();
-		Images[19] = new ImageIcon(Game.class.getResource("/img/P5D.gif")).getImage();
-		Images[20] = new ImageIcon(Game.class.getResource("/img/walls.gif")).getImage();
-		Images[21] = new ImageIcon(Game.class.getResource("/img/steels.gif")).getImage();
-		Images[22] = new ImageIcon(Game.class.getResource("/img/water.gif")).getImage();
-		Images[23] = new ImageIcon(Game.class.getResource("/img/missile.gif")).getImage();
+		Images[0] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P1L.gif")).getImage();
+		Images[1] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P1R.gif")).getImage();
+		Images[2] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P1U.gif")).getImage();
+		Images[3] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P1D.gif")).getImage();
+		Images[4] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P2L.gif")).getImage();
+		Images[5] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P2R.gif")).getImage();
+		Images[6] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P2U.gif")).getImage();
+		Images[7] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P2D.gif")).getImage();
+		Images[8] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P3L.gif")).getImage();
+		Images[9] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P3R.gif")).getImage();
+		Images[10] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P3U.gif")).getImage();
+		Images[11] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P3D.gif")).getImage();
+		Images[12] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P4L.gif")).getImage();
+		Images[13] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P4R.gif")).getImage();
+		Images[14] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P4U.gif")).getImage();
+		Images[15] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P4D.gif")).getImage();
+		Images[16] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P5L.gif")).getImage();
+		Images[17] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P5R.gif")).getImage();
+		Images[18] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P5U.gif")).getImage();
+		Images[19] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P5D.gif")).getImage();
+		Images[20] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/walls.gif")).getImage();
+		Images[21] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/steels.gif")).getImage();
+		Images[22] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/water.gif")).getImage();
+		Images[23] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/missile.gif")).getImage();
 		
 	}
 	
@@ -60,10 +62,11 @@ public class Game extends JPanel {
 		battlefield.AddTank(1);
 		battlefield.AddTank(2);
 		
+		addKeyListener(new KeyBoardListener());
+		
 		isLive = true;
 		
 		new Thread(new Draw()).start();
-		
 		
 	}
 	
@@ -74,7 +77,15 @@ public class Game extends JPanel {
 			while(isLive) {
 				
 				battlefield.UpdateBattleField();
-				repaint();
+				if (battlefield.getTanklist().size() == 1) {
+					
+					ShutDown();
+					
+				} else {
+					
+					repaint();
+					
+				}
 				
 				try {
 					
@@ -190,6 +201,75 @@ public class Game extends JPanel {
 		g.drawImage(OffScreenImage, 0, 0, null);
 		
 		paint(gosi);
+		
+	}
+	
+	synchronized void ShutDown() {
+		
+		isLive = false;
+		
+	}
+	
+	private class KeyBoardListener extends KeyAdapter {
+		
+		public void keyPressed(KeyEvent e) {
+			
+			super.keyPressed(e);
+			
+			int key = e.getKeyCode();
+			
+			Tank p1 = battlefield.getTanklist().get(1);
+			
+			switch(key) {
+			case KeyEvent.VK_UP : {
+				
+				p1.move(Tank.Direction.UP);
+				
+			}
+			break;
+			
+			case KeyEvent.VK_DOWN : {
+				
+				p1.move(Tank.Direction.DOWN);
+				
+			}
+			break;
+			
+			case KeyEvent.VK_LEFT : {
+				
+				p1.move(Tank.Direction.LEFT);
+				
+			}
+			break;
+			
+			case KeyEvent.VK_RIGHT : {
+				
+				p1.move(Tank.Direction.RIGHT);
+				
+			}
+			break;
+			
+			case KeyEvent.VK_SPACE: {
+				
+				p1.fire();
+				
+			}
+			break;
+			
+			default:{}
+			
+			}
+			
+	    }
+		
+	}
+	
+	public static void main (String[] args) {
+		
+		JFrame frame = new JFrame();
+		frame.setBounds(0, 0, 640, 640);
+		
+		frame.add(new Game());
 		
 	}
 	
