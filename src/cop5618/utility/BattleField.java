@@ -2,6 +2,7 @@ package cop5618.utility;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BattleField {
 	
@@ -20,7 +21,7 @@ public class BattleField {
 	private int field[][] = new int[BFSize][BFSize];
 	
 	private List<Tank> tanklist= new ArrayList<Tank>();
-	private Map<Integer, Missile> missilelist = new HashMap<Integer, Missile>();
+	private Map<Integer, Missile> missilelist = new ConcurrentHashMap<Integer, Missile>();
 	/*
 	public BattleField (Integer whichMap) {
 		
