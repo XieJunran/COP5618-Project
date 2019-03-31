@@ -2,6 +2,9 @@ package cop5618.utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class BattleField {
 	
@@ -19,8 +22,8 @@ public class BattleField {
 	
 	private int field[][] = new int[BFSize][BFSize];
 	
-	private ArrayList<Tank> tanklist;
-	private HashMap<Integer, Missile> missilelist;
+	private List<Tank> tanklist= new ArrayList<Tank>();
+	private Map<Integer, Missile> missilelist = new HashMap<Integer, Missile>();
 	/*
 	public void AddMissile (Missile missile) {
 		
@@ -30,8 +33,30 @@ public class BattleField {
 	*/
 	// Add a tank into tanklist
 	public void AddTank (int tankid) {
-		
-		Tank newTank = new Tank(this);
+		int x, y;
+		switch (tankid) {
+		case 0: {
+			x = 0;
+			y = 0;
+		}
+		case 1: {
+			x = 0;
+			y = BFSize - 1;
+		}
+		case 2: {
+			x = BFSize - 1;
+			y = 0;
+		}
+		case 3: {
+			x = BFSize - 1;
+			y = BFSize - 1;
+		}
+		default: {
+			x = 0;
+			y = 0;
+		}
+		}
+		Tank newTank = new Tank(this, x, y);
 		tanklist.add(newTank);
 		
 	}
@@ -39,61 +64,20 @@ public class BattleField {
 	// Update field by moving tanks and missiles
 	public void UpdateBattleField () {
 		
-		for (Integer missileid : missilelist.keySet()) {
-			Missile missile = missilelist.get(missileid);
-			switch (missile.direction) {
-			case UP: {
-				if (missile.x == 0 || field[missile.x - 1][missile.y] == -2) missilelist.remove(missileid);
-				else if (field[missile.x - 1][missile.y] == -1) {
-					field[missile.x - 1][missile.y] = 0;
-					missilelist.remove(missileid);
-				}
-				else if (field[missile.x - 1][missile.y] > 0) {
-					tanklist.get(field[missile.x - 1][missile.y]).isAlive = false;
-					field[missile.x - 1][missile.y] = 0;
-					missilelist.remove(missileid);
-				}
-				else --missile.x;
+		Iterator<Map.Entry<Integer, Missile>> entries = missilelist.entrySet().iterator();
+		while (entries.hasNext()) {
+			Map.Entry<Integer, Missile> entry = entries.next();
+			Missile missile = entry.getValue();
+			missile.move();
+			if (missile.x < 0 || missile.x >= BFSize || missile.y < 0 || missile.y >= BFSize || field[missile.x][missile.y] == -2) missilelist.remove(entry.getKey());
+			else if (field[missile.x][missile.y] == -1) {
+				field[missile.x][missile.y] = 0;
+				missilelist.remove(entry.getKey());
 			}
-			case DOWN: {
-				if (missile.x == BFSize - 1 || field[missile.x + 1][missile.y] == -2) missilelist.remove(missileid);
-				else if (field[missile.x + 1][missile.y] == -1) {
-					field[missile.x + 1][missile.y] = 0;
-					field[missile.x + 1][missile.y] = 0;
-					missilelist.remove(missileid);
-				}
-				else if (field[missile.x + 1][missile.y] > 0) {
-					tanklist.get(field[missile.x + 1][missile.y]).isAlive = false;
-					missilelist.remove(missileid);
-				}
-				else ++missile.x;
-			}
-			case LEFT: {
-				if (missile.y == 0 || field[missile.x][missile.y - 1] == -2) missilelist.remove(missileid);
-				else if (field[missile.x][missile.y - 1] == -1) {
-					field[missile.x][missile.y - 1] = 0;
-					missilelist.remove(missileid);
-				}
-				else if (field[missile.x][missile.y - 1] > 0) {
-					tanklist.get(field[missile.x][missile.y - 1]).isAlive = false;
-					field[missile.x][missile.y - 1] = 0;
-					missilelist.remove(missileid);
-				}
-				else --missile.y;
-			}
-			case RIGHT: {
-				if (missile.y == BFSize - 1 || field[missile.x][missile.y + 1] == -2) missilelist.remove(missileid);
-				else if (field[missile.x][missile.y + 1] == -1) {
-					field[missile.x][missile.y + 1] = 0;
-					missilelist.remove(missileid);
-				}
-				else if (field[missile.x][missile.y + 1] > 0) {
-					tanklist.get(field[missile.x][missile.y + 1]).isAlive = false;
-					field[missile.x][missile.y + 1] = 0;
-					missilelist.remove(missileid);
-				}
-				else ++missile.y;
-			}
+			else if (field[missile.x][missile.y] > 0) {
+				tanklist.get(field[missile.x][missile.y]).isAlive = false;
+				field[missile.x][missile.y] = 0;
+				missilelist.remove(entry.getKey());
 			}
 		}
 		
@@ -107,24 +91,28 @@ public class BattleField {
 							--tank.x;
 						}
 					}
+					break;
 					case DOWN: {
 						if (tank.x != BFSize - 1 && tank.x + 1 == 0) {
 							field[tank.x][tank.y] = 0;
 							++tank.x;
 						}
 					}
+					break;
 					case LEFT: {
 						if (tank.y != 0 && tank.y - 1 == 0) {
 							field[tank.x][tank.y] = 0;
 							--tank.y;
 						}
 					}
+					break;
 					case RIGHT: {
 						if (tank.y != BFSize - 1 && tank.y - 1 == 0) {
 							field[tank.x][tank.y] = 0;
 							++tank.y;
 						}
 					}
+					break;
 					}
 				}
 				
@@ -133,8 +121,8 @@ public class BattleField {
 					case UP: {
 						if (tank.x != 0) {
 							if (field[tank.x - 1][tank.y] == 0 || field[tank.x - 1][tank.y] == -3) {
-								Missile newMissile = new Missile(tank.tankid, this, tank.direction, tank.x - 1, tank.y);
-								missilelist.add(newMissile.missileid, newMissile);
+								Missile newMissile = new Missile(tank, this, tank.direction, tank.x - 1, tank.y);
+								missilelist.put(newMissile.missileID, newMissile);
 							}
 							else if (field[tank.x - 1][tank.y] == -1) {
 								field[tank.x - 1][tank.y] = 0;
@@ -145,11 +133,12 @@ public class BattleField {
 							}
 						}
 					}
+					break;
 					case DOWN: {
 						if (tank.x != BFSize - 1) {
 							if (field[tank.x + 1][tank.y] == 0 || field[tank.x + 1][tank.y] == -3) {
-								Missile newMissile = new Missile(tank.tankid, this, tank.direction, tank.x + 1, tank.y);
-								missilelist.add(newMissile.missileid, newMissile);
+								Missile newMissile = new Missile(tank, this, tank.direction, tank.x + 1, tank.y);
+								missilelist.put(newMissile.missileID, newMissile);
 							}
 							else if (field[tank.x + 1][tank.y] == -1) {
 								field[tank.x + 1][tank.y] = 0;
@@ -160,11 +149,12 @@ public class BattleField {
 							}
 						}
 					}
+					break;
 					case LEFT: {
 						if (tank.y != 0) {
 							if (field[tank.x][tank.y - 1] == 0 || field[tank.x][tank.y - 1] == -3) {
-								Missile newMissile = new Missile(tank.tankid, this, tank.direction, tank.x, tank.y - 1);
-								missilelist.add(newMissile.missileid, newMissile);
+								Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y - 1);
+								missilelist.put(newMissile.missileID, newMissile);
 							}
 							else if (field[tank.x][tank.y - 1] == -1) {
 								field[tank.x][tank.y - 1] = 0;
@@ -175,11 +165,12 @@ public class BattleField {
 							}
 						}
 					}
+					break;
 					case RIGHT: {
 						if (tank.y != BFSize - 1) {
 							if (field[tank.x][tank.y + 1] == 0 || field[tank.x][tank.y + 1] == -3) {
-								Missile newMissile = new Missile(tank.tankid, this, tank.direction, tank.x, tank.y + 1);
-								missilelist.add(newMissile.missileid, newMissile);
+								Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y + 1);
+								missilelist.put(newMissile.missileID, newMissile);
 							}
 							else if (field[tank.x][tank.y + 1] == -1) {
 								field[tank.x][tank.y + 1] = 0;
@@ -190,6 +181,7 @@ public class BattleField {
 							}
 						}
 					}
+					break;
 					}
 				}
 			}
@@ -211,7 +203,7 @@ public class BattleField {
 	}
 	
 	// Get tanklist
-	public ArrayList<Tank> getTanklist () {
+	public List<Tank> getTanklist () {
 		
 		return tanklist;
 		
