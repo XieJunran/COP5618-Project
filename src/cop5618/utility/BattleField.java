@@ -36,24 +36,28 @@ public class BattleField {
 		int x, y;
 		switch (tankid) {
 		case 0: {
-			x = 0;
-			y = 0;
+			x = 1;
+			y = 1;
 		}
+		break;
 		case 1: {
-			x = 0;
-			y = BFSize - 1;
+			x = 1;
+			y = BFSize - 2;
 		}
+		break;
 		case 2: {
-			x = BFSize - 1;
-			y = 0;
+			x = BFSize - 2;
+			y = 1;
 		}
+		break;
 		case 3: {
-			x = BFSize - 1;
-			y = BFSize - 1;
+			x = BFSize - 2;
+			y = BFSize - 2;
 		}
+		break;
 		default: {
-			x = 0;
-			y = 0;
+			x = 1;
+			y = 1;
 		}
 		}
 		Tank newTank = new Tank(this, x, y);
@@ -188,13 +192,13 @@ public class BattleField {
 		}
 		
 	}
-	
+	/*
 	public int[][] getField () {
 		
 		return field;
 		
 	}
-	
+	*/
 	// Get what is in the coord
 	public int getCoordItem (int x, int y) {
 		
@@ -202,10 +206,22 @@ public class BattleField {
 		
 	}
 	
+	public void setCoordItem (int x, int y, int item) {
+		
+		field[x][y] = item;
+		
+	}
+	
 	// Get tanklist
 	public List<Tank> getTanklist () {
 		
 		return tanklist;
+		
+	}
+	
+	public Map<Integer, Missile> getMissilelist() {
+		
+		return missilelist;
 		
 	}
 	
