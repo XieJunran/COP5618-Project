@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.JPanel;
@@ -191,11 +192,15 @@ public class Game extends JPanel {
 		Map<Integer, Missile> missilelist = battlefield.getMissilelist();
 		
 		for (Missile missile: missilelist.values()) {
-			
+
 			g2d.drawImage(Images[23], missile.x * 10, (BattleField.BFSize - 1 - missile.y) * 10, missilew, missileh, null);
 			
 		}
 		
+	}
+	
+	private boolean isInRange(int x, int y) {
+		return x >= 0 && x < BattleField.BFSize && y >= 0 && y < BattleField.BFSize;
 	}
 	
 	synchronized public void update(Graphics g) {
