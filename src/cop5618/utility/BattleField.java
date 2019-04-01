@@ -98,7 +98,7 @@ public class BattleField {
 			}
 		}
 		break;
-		case DOWN: {
+		case UP: {
 			if (tank.y != 0) {
 				if (field[tank.x][tank.y - 1] == 0 || field[tank.x][tank.y - 1] == WATER) {
 					Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y - 1);
@@ -114,7 +114,7 @@ public class BattleField {
 			}
 		}
 		break;
-		case UP: {
+		case DOWN: {
 			if (tank.y != BFSize - 1) {
 				if (field[tank.x][tank.y + 1] == 0 || field[tank.x][tank.y + 1] == WATER) {
 					Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y + 1);
@@ -183,7 +183,11 @@ public class BattleField {
 			
 			missile.move();
 			
-			if (missile.x < 0 || missile.x >= BFSize || missile.y < 0 || missile.y >= BFSize || field[missile.x][missile.y] == -2) missilelist.remove(entry.getKey());
+			if (missile.x < 0 || missile.x >= BFSize 
+					|| missile.y < 0 || missile.y >= BFSize 
+					|| field[missile.x][missile.y] == STELL_WALL) {
+				entries.remove();
+			}
 			else if (field[missile.x][missile.y] == -1) {
 				field[missile.x][missile.y] = 0;
 				entries.remove();
@@ -213,14 +217,14 @@ public class BattleField {
 						}
 					}
 					break;
-					case DOWN: {
+					case UP: {
 						if (tank.y != 0 && field[tank.x][tank.y - 1] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[tank.x][--tank.y] = tank.tankID;
 						}
 					}
 					break;
-					case UP: {
+					case DOWN: {
 						if (tank.y != BFSize - 1 && field[tank.x][tank.y + 1] == 0) {
 							field[tank.x][tank.y] = 0;
 							field[tank.x][++tank.y] = tank.tankID;
