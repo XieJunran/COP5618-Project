@@ -15,7 +15,7 @@ public class BattleField {
 	final static int PLAYER_THREE = 3;
 	final static int PLAYER_FOUR = 4;
 	
-	final static int BFSize = 32;
+	final static int BFSize = 24;
 	
 	private int field[][] = new int[BFSize][BFSize];
 	

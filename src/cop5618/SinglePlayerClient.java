@@ -72,7 +72,7 @@ public class SinglePlayerClient extends JFrame {
 	private SinglePlayerClient() {
 		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(0, 0, 800, 800);
+		setBounds(0, 0, scrw, scrh);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();

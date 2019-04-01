@@ -16,11 +16,11 @@ import javax.swing.JFrame;
 @SuppressWarnings("serial")
 public class Game extends JPanel {
 	
-	private static final int imgw = 20;
-	private static final int imgh = 20;
+	private static final int imgw = 32;
+	private static final int imgh = 32;
 	
-	private static final int missilew = 10;
-	private static final int missileh = 10;
+	private static final int missilew = 16;
+	private static final int missileh = 16;
 	
 	private static final int scrw = 800;
 	private static final int scrh = 800;
@@ -128,21 +128,42 @@ public class Game extends JPanel {
 				switch (item) {
 				case(BattleField.WALL): {
 					
-					g2d.drawImage(Images[20], j * imgw, i * imgh, imgw, imgh, null);
+					g2d.drawImage(
+							Images[20],
+							j * imgw,
+							i * imgh,
+							imgw,
+							imgh,
+							null
+					);
 					
 				}
 				break;
 				
 				case(BattleField.STELL_WALL): {
 					
-					g2d.drawImage(Images[21], j * imgw, i * imgh, imgw, imgh, null);
+					g2d.drawImage(
+							Images[21],
+							j * imgw,
+							i * imgh,
+							imgw,
+							imgh,
+							null
+					);
 					
 				}
 				break;
 				
 				case(BattleField.WATER): {
 					
-					g2d.drawImage(Images[22], j * imgw, i * imgh, imgw, imgh, null);
+					g2d.drawImage(
+							Images[22],
+							j * imgw,
+							i * imgh,
+							imgw,
+							imgh,
+							null
+					);
 					
 				}
 				break;
@@ -159,23 +180,47 @@ public class Game extends JPanel {
 						
 						if (tank.direction == Tank.Direction.LEFT) {
 							
-							g2d.drawImage(Images[(item - 1) * 4], j * imgw, i * imgh, imgw, imgh, null);
-							// g2d.drawImage(Images[(item - 1) * 4], i, j, imgw, imgh, null);
-							
+							g2d.drawImage(
+									Images[(item - 1) * 4],
+									j * imgw,
+									i * imgh,
+									imgw,
+									imgh,
+									null
+							);
+													
 						} else if (tank.direction == Tank.Direction.RIGHT) {
 							
-							g2d.drawImage(Images[(item - 1) * 4 + 1], j * imgw, i * imgh, imgw, imgh, null);
-							// g2d.drawImage(Images[(item - 1) * 4 + 1], i, j, imgw, imgh, null);
+							g2d.drawImage(
+									Images[(item - 1) * 4 + 1],
+									j * imgw,
+									i * imgh,
+									imgw,
+									imgh,
+									null
+							);
 							
 						} else if (tank.direction == Tank.Direction.UP) {
 							
-							g2d.drawImage(Images[(item - 1) * 4 + 2], j * imgw, i * imgh, imgw, imgh, null);
-							// g2d.drawImage(Images[(item - 1) * 4 + 2], i, j, imgw, imgh, null);
+							g2d.drawImage(
+									Images[(item - 1) * 4 + 2],
+									j * imgw,
+									i * imgh,
+									imgw,
+									imgh,
+									null
+							);
 							
 						} else {
 							
-							g2d.drawImage(Images[(item - 1) * 4 + 3], j * imgw, i * imgh, imgw, imgh, null);
-							// g2d.drawImage(Images[(item - 1) * 4 + 3], i, j, imgw, imgh, null);
+							g2d.drawImage(
+									Images[(item - 1) * 4 + 3],
+									j * imgw,
+									i * imgh,
+									imgw,
+									imgh,
+									null
+							);
 							
 						}
 					
@@ -193,7 +238,14 @@ public class Game extends JPanel {
 		
 		for (Missile missile: missilelist.values()) {
 
-			g2d.drawImage(Images[23], missile.x * imgw + 5, (BattleField.BFSize - 1 - missile.y) * imgh + 5, missilew, missileh, null);
+			g2d.drawImage(
+					Images[23],
+					missile.x * imgw + (imgw - missilew) / 2,
+					(BattleField.BFSize - 1 - missile.y) * imgh + (imgh - missileh) / 2,
+					missilew,
+					missileh,
+					null
+			);
 			
 		}
 		
