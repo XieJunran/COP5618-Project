@@ -82,7 +82,7 @@ public class SinglePlayerClient extends JFrame {
 		panel.setLayout(null);
 		
 		JButton btn = new JButton("start!");
-		btn.setBounds(275, 300, 90, 40);
+		btn.setBounds((scrw - 100) / 2, (scrh - 40) / 2, 100, 40);
 		btn.addActionListener(e -> StartGame());
 		panel.add(btn);
 		
