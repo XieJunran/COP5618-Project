@@ -385,4 +385,8 @@ public class BattleField implements Runnable {
 		}
 	}
 	
+	public boolean isEnded() {
+		return ended;
+	}
+	
 }
