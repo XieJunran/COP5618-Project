@@ -59,7 +59,7 @@ public class Server {
         		//initialize Input and Output streams
         		in = new DataInputStream(connection.getInputStream());
     			handShake(); // handshake
-       			while(!bf.getEnded()) {
+       			while(!bf.isEnded()) {
         			//receive the message sent from the client
         			receiveMessage();
         			
@@ -155,7 +155,6 @@ public class Server {
       		
       		String handShakeHeadString = new String(rcv_msg);
       		if (handShakeHeadString.equals("BATTLECITY")) {
-      			tank = bf.AddTank();
       			rcv_msg = new byte[4];
       			in.read(rcv_msg);
       			int msg_length = byteArrayToInt(rcv_msg);
@@ -165,7 +164,9 @@ public class Server {
       			String[] hostAndPort = str.split(" ");
       			String host = hostAndPort[0];
       			int port = Integer.parseInt(hostAndPort[1]);
-      			new Client(host, port, bf).start();
+      			Client client = new Client(host, port, bf);
+      			tank = bf.AddTank(client);
+      			client.start();
       			// TODO
       		}
       		else {
