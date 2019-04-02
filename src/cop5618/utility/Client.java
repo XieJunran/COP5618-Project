@@ -51,6 +51,7 @@ public class Client extends Thread {
 						}
 					}
 					sendMessage();
+					fieldUpdated = false;
 				}
 				// TODO
 				
