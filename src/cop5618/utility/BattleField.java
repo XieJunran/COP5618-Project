@@ -1,8 +1,6 @@
 package cop5618.utility;
 
-import java.io.*;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.*;
 import java.util.concurrent.locks.*;
 
@@ -26,11 +24,12 @@ public class BattleField implements Runnable {
 	
 	private AtomicInteger playerNum = new AtomicInteger(0);
 	
-	private List<Tank> tankList= new ArrayList<Tank>();
+	private List<Tank> tankList = new ArrayList<Tank>();
 	private ReentrantLock tankListLock = new ReentrantLock();
 	private Map<Integer, Missile> missileList = new HashMap<Integer, Missile>();
 	private ReentrantLock missileListLock = new ReentrantLock();
-	//Need a connection list and its lock
+	private List<Client> clientList = new ArrayList<Client>();
+	private ReentrantLock clientListLock = new ReentrantLock();
 	
 	private volatile boolean started = false;
 	private volatile boolean ended = false;
@@ -86,7 +85,13 @@ public class BattleField implements Runnable {
 		while((!started) || (started && !ended)) {
 			UpdateBattleField();
 			int[][] copyOfField = getCopyOfField();
-			//Send copyOfField back to each connection
+			clientListLock.lock();
+			try {
+				for(Client client : clientList)
+					client.sendBF(copyOfField);
+			}finally {
+				clientListLock.unlock();
+			}
 			try {
 				Thread.sleep(100);
 			}catch(InterruptedException e){
@@ -319,10 +324,11 @@ public class BattleField implements Runnable {
 	}
 	
 	// Add a tank into tanklist
-	public Tank AddTank() {
+	public Tank AddTank(Client client) {
 		int bornPosX = 0, bornPosY = 0;
 		fieldLock.lock();
 		tankListLock.lock();
+		clientListLock.lock();
 		try {
 			if(field[0][0] == 0) {
 				bornPosX = 0;
@@ -340,12 +346,14 @@ public class BattleField implements Runnable {
 			Tank tank = SafeTankFactory.newTankInstance(this, Type.values()[playerNum.getAndIncrement()], bornPosX, bornPosY);
 			field[bornPosX][bornPosY] = tank.tankID;
 			tankList.add(tank);
+			clientList.add(client);
 			if(playerNum.get() >= MIN_PLAYER_NUM)
 				started = true;
 			return tank;
 		}finally {
 			fieldLock.unlock();
 			tankListLock.unlock();
+			clientListLock.unlock();
 		}
 	}
 	
@@ -371,6 +379,7 @@ public class BattleField implements Runnable {
 					}else if(field[i][j] > 0){
 						for(Tank tank : tankList) {
 							int val = tank.type.getValue() * 10 + tank.getDirection().getValue(); 
+							copyOfField[i][j] = val;
 						}
 					}else {
 						copyOfField[i][j] = field[i][j];
