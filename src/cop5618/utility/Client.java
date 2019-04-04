@@ -5,15 +5,18 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 
 public class Client extends Thread {
 	
 	Socket requestSocket;           //socket connect to the server
 	DataOutputStream out;           //stream write to the socket
+	BattleField bf;
 	private final String hostName;
 	private final int port;
-	BattleField bf;
 	byte[] snd_msg;                 //message send to the server
+	int[][] field;
+	boolean fieldUpdated = false;
 	
 
 	public Client(String hostName, int port, BattleField bf) {
@@ -37,8 +40,19 @@ public class Client extends Thread {
 			handshake();
 			sendMessage();
 			
-			while(bf.running) {
+			while(bf.isEnded()) {
 				
+				if (fieldUpdated) {
+					snd_msg = new byte[BattleField.BF_SIZE * BattleField.BF_SIZE];
+					for (int i = 0; i < BattleField.BF_SIZE; ++i) {
+						for (int j = 0; j < BattleField.BF_SIZE; ++j) {
+							byte[] curInt = intToByteArray(4, field[i][j]);
+							System.arraycopy(curInt, 0, snd_msg, i * BattleField.BF_SIZE + j, 4);
+						}
+					}
+					sendMessage();
+					fieldUpdated = false;
+				}
 				// TODO
 				
 			}
@@ -49,8 +63,6 @@ public class Client extends Thread {
 			System.err.println("You are trying to connect to an unknown host!");
 		} catch(IOException ioException){
 			ioException.printStackTrace();
-		} catch(InterruptedException interruptedException) {
-			interruptedException.printStackTrace();
 		} finally {
 			//Close connections
 			try{
@@ -63,7 +75,7 @@ public class Client extends Thread {
 		}
 	}
 	
-	public void sendMessage() throws IOException {
+	private void sendMessage() throws IOException {
 		
   		if (snd_msg != null) {
   			out.write(snd_msg);
@@ -72,10 +84,24 @@ public class Client extends Thread {
   	}
   	
   	private void handshake() {
+  		
   		System.out.println("Client send [handshake] message");
   		snd_msg = new byte[10];
   		String str = "BATTLECITY";
   		snd_msg = str.getBytes();
+  	}
+  	
+  	public void sendBF(int[][] field) {
+  		
+  		this.field = field;
+  		fieldUpdated = true;
+  	}
+  	
+  	private byte[] intToByteArray(int bits, int value) {
+  		
+  		ByteBuffer b = ByteBuffer.allocate(bits);
+  		b.putInt(value);
+  		return b.array();
   	}
 
 }
