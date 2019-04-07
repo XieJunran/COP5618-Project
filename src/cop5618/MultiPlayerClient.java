@@ -110,7 +110,6 @@ public class MultiPlayerClient extends JFrame {
 		
 	}
 	
-	
 	private void StartGame () {
 		
 		play = new JFrame("Fights!");
@@ -175,6 +174,5 @@ public class MultiPlayerClient extends JFrame {
 		panel.add(btn);
 		
 	}
-	
 	
 }
