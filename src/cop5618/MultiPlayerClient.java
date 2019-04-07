@@ -28,7 +28,10 @@ public class MultiPlayerClient extends JFrame {
 	private String serverip;
 	
 	private Socket socket;
+	private DataOutputStream out;
+	
 	private ServerSocket listener;
+	private DataInputStream in;
 	
 	private JFrame play;
 	private MultiPlayerGame game;
@@ -80,6 +83,20 @@ public class MultiPlayerClient extends JFrame {
 				
 			}
 			
+			try {
+				
+				in.close();
+				out.close();
+				socket.close();
+				listener.close();
+				
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+				
+			}
+			
+			
 			game.removeAll();
 			play.remove(game);
 			play.dispose();
@@ -105,9 +122,9 @@ public class MultiPlayerClient extends JFrame {
 			socket = new Socket(serverip, port);
 			listener = new ServerSocket(port);
 			
-			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+			out = new DataOutputStream(socket.getOutputStream());
 			out.flush();
-			DataInputStream in = new DataInputStream(listener.accept().getInputStream());
+			in = new DataInputStream(listener.accept().getInputStream());
 			
 			System.out.println("HandShaking with the server!");
 			InetAddress localhost = InetAddress.getLocalHost();
@@ -134,10 +151,6 @@ public class MultiPlayerClient extends JFrame {
 			System.err.println("Cannot connect to " + serverip + " !");
 			e.printStackTrace();
 			
-		} finally {
-			
-			
-			
 		}
 		
 	}
@@ -160,7 +173,6 @@ public class MultiPlayerClient extends JFrame {
 		btn.setBounds((scrw - 100) / 2, (scrh - 40) / 2, 100, 40);
 		btn.addActionListener(e -> StartGame());
 		panel.add(btn);
-		
 		
 	}
 	

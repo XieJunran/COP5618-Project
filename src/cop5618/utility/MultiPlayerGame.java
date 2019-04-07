@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -103,10 +104,10 @@ public class MultiPlayerGame extends JPanel {
 	private DataOutputStream out;
 	
 	// integer constants for direction
-	public static final int LEFT = 0;
-	public static final int RIGHT = 1;
-	public static final int UP = 2;
-	public static final int DOWN = 3;
+	public static final int UP = 1;
+	public static final int DOWN = 2;
+	public static final int LEFT = 3;
+	public static final int RIGHT = 4;
 	
 	private int direction;
 	
@@ -177,9 +178,128 @@ public class MultiPlayerGame extends JPanel {
 		
 		public void run() {
 			
-			while(isLive) {
+			while(isLive()) {
 				
 				repaint();
+				
+				try {
+					
+					Thread.sleep(100);
+					
+				} catch (InterruptedException e) {
+					
+					e.printStackTrace();
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	class Sender implements Runnable {
+		
+		public void run() {
+			
+			while(isLive()) {
+				
+				boolean m = isMoved();
+				boolean f = isFired();
+				
+				setMoved(false);
+				setFired(false);
+				
+				if (m && f) {
+					
+					try {
+						
+						out.writeInt(direction + 4);
+						out.flush();
+						
+					} catch (IOException e) {
+						
+						System.err.println("Failed to send message to the Server!");
+						e.printStackTrace();
+						
+					}
+					
+				} else if (m) {
+					
+					try {
+						
+						out.writeInt(direction);
+						out.flush();
+						
+					} catch (IOException e) {
+						
+						System.err.println("Failed to send message to the Server!");
+						e.printStackTrace();
+						
+					}
+					
+				} else if (f) {
+					
+					try {
+						
+						out.writeInt(9);
+						out.flush();
+						
+					} catch (IOException e) {
+						
+						System.err.println("Failed to send message to the Server!");
+						e.printStackTrace();
+						
+					}
+					
+				} else {
+					
+					try {
+						
+						out.writeInt(0);
+						out.flush();
+						
+					} catch (IOException e) {
+						
+						System.err.println("Failed to send message to the Server!");
+						e.printStackTrace();
+						
+					}
+					
+				}
+				
+				try {
+					
+					Thread.sleep(100);
+					
+				} catch (InterruptedException e) {
+					
+					e.printStackTrace();
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	class Receiver implements Runnable {
+		
+		public void run() {
+			
+			while(isLive()) {
+				
+				try {
+					
+					updateField();
+					
+				} catch (IOException e) {
+					
+					System.err.println("Cannot get battlefield from server !");
+					e.printStackTrace();
+					
+				}
 				
 				try {
 					
@@ -249,7 +369,7 @@ public class MultiPlayerGame extends JPanel {
 				
 				switch (field[j][BF_SIZE - 1 - i]) {
 					
-					case(MISSILE): {
+					case MISSILE : {
 						
 						g2d.drawImage(
 								Images[23],
@@ -263,7 +383,7 @@ public class MultiPlayerGame extends JPanel {
 					}
 					break;
 					
-					case(WALL): {
+					case WALL: {
 						
 						g2d.drawImage(
 								Images[20],
@@ -277,7 +397,7 @@ public class MultiPlayerGame extends JPanel {
 					}
 					break;
 					
-					case(STELL_WALL): {
+					case STELL_WALL : {
 						
 						g2d.drawImage(
 								Images[21],
@@ -291,7 +411,7 @@ public class MultiPlayerGame extends JPanel {
 					}
 					break;
 					
-					case(WATER): {
+					case WATER : {
 						
 						g2d.drawImage(
 								Images[22],
@@ -305,7 +425,7 @@ public class MultiPlayerGame extends JPanel {
 					}
 					break;
 					
-					case(WATER_AND_MISSILE): {
+					case WATER_AND_MISSILE : {
 						
 						g2d.drawImage(
 								Images[22],
@@ -328,6 +448,38 @@ public class MultiPlayerGame extends JPanel {
 					}
 					break;
 					
+					default: {
+						
+						if ((field[j][BF_SIZE - 1 - i] >= 10 && field[j][BF_SIZE - 1 - i] <= 13) &&
+							(field[j][BF_SIZE - 1 - i] >= 20 && field[j][BF_SIZE - 1 - i] <= 23) &&
+							(field[j][BF_SIZE - 1 - i] >= 30 && field[j][BF_SIZE - 1 - i] <= 33) &&
+							(field[j][BF_SIZE - 1 - i] >= 40 && field[j][BF_SIZE - 1 - i] <= 43) &&
+							(field[j][BF_SIZE - 1 - i] >= 50 && field[j][BF_SIZE - 1 - i] <= 53)) {
+							
+							int id = field[j][BF_SIZE - 1 - i] / 10 - 1;
+							int d = field[j][BF_SIZE - 1 - i] % 10;
+							
+							g2d.drawImage(
+									Images[id * 4 + d],
+									j * imgw + (imgw - missilew) / 2,
+									i * imgh + (imgh - missileh) / 2,
+									missilew,
+									missileh,
+									null
+							);
+							
+						} else {
+							
+							System.err.println(
+									"Wrong map representation for " +
+									field[j][BF_SIZE - 1 - i] +
+									" at " + i + ", " + j + " !"
+							);
+							
+						}
+					
+					}
+				
 				}
 				
 			}
@@ -335,7 +487,38 @@ public class MultiPlayerGame extends JPanel {
 		}
 		
 	}
-
+	
+	synchronized public void updateField() throws IOException {
+		
+		byte[] b = new byte[BF_SIZE * BF_SIZE * 4];
+		
+		int num = in.read(b);
+		
+		if (num == b.length) {
+			
+			for (int i = 0; i < BF_SIZE; i++) {
+				
+				for (int j = 0; j < BF_SIZE; j++) {
+					
+					int temp = (i + j * i) * 4;
+					
+					field[i][j] = (b[temp + 3] & 0xFF) |  
+		      	            	  (b[temp + 2] & 0xFF) << 8 |  
+		      	            	  (b[temp + 1] & 0xFF) << 16 |  
+		      	            	  (b[temp] & 0xFF) << 24; 
+					
+				}
+				
+			}
+		
+		} else if (num == -1) {
+			
+			setLive(false);
+			
+		}
+			
+	}
+	
 	synchronized public int getDirection() {
 		
 		return direction;
@@ -372,13 +555,13 @@ public class MultiPlayerGame extends JPanel {
 		
 	}
 
-	public synchronized boolean isLive() {
+	synchronized public boolean isLive() {
 		
 		return isLive;
 		
 	}
 
-	public synchronized void setLive(boolean l) {
+	synchronized public void setLive(boolean l) {
 		
 		isLive = l;
 		
