@@ -60,7 +60,7 @@ public class Game extends JPanel {
 		
 	}
 	
-	public static boolean isLive = true;
+	public boolean isLive = true;
 	
 	public Game() {
 		
@@ -69,18 +69,19 @@ public class Game extends JPanel {
 		setBounds(0, 0, scrw, scrh);
 		setLayout(null);
 		
-		battlefield.AddTank(1);
-		battlefield.AddTank(2);
+		// Previously used for single player
+		// battlefield.AddTank(1);
+		// battlefield.AddTank(2);
 		
-		addKeyListener(new KeyBoardListener());
+		// addKeyListener(new KeyBoardListener());
 		
 		isLive = true;
 		
-		new Thread(new Draw()).start();
+		// new Thread(new Draw()).start();
 		
 	}
 	
-	class Draw implements Runnable {
+/*	class Draw implements Runnable {
 		
 		public void run() {
 			
@@ -336,6 +337,6 @@ public class Game extends JPanel {
 			
 	    }
 		
-	}
+	}*/
 	
 }

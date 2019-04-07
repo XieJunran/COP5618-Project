@@ -24,7 +24,7 @@ public class SinglePlayerClient extends JFrame {
 		
 		public void run() {
 			
-			while(Game.isLive) {
+			while(game.isLive) {
 				
 				try {
 					
@@ -70,6 +70,8 @@ public class SinglePlayerClient extends JFrame {
 	}
 	
 	private SinglePlayerClient() {
+		
+		
 		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(0, 0, scrw, scrh);
