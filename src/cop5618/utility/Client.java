@@ -43,7 +43,7 @@ public class Client extends Thread {
 			while(bf.isEnded()) {
 				
 				if (fieldUpdated) {
-					snd_msg = new byte[BattleField.BF_SIZE * BattleField.BF_SIZE];
+					snd_msg = new byte[BattleField.BF_SIZE * BattleField.BF_SIZE * 4];
 					for (int i = 0; i < BattleField.BF_SIZE; ++i) {
 						for (int j = 0; j < BattleField.BF_SIZE; ++j) {
 							byte[] curInt = intToByteArray(4, field[i][j]);

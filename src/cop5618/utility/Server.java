@@ -1,11 +1,9 @@
 package cop5618.utility;
 
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.ByteBuffer;
 
 import cop5618.utility.Tank.Direction;
 
@@ -17,15 +15,14 @@ public class Server {
 		
 		System.out.println("The server is running.");
 		
-		Server server = new Server();
         ServerSocket listener = new ServerSocket(port);
         BattleField bf = new BattleField();
-        int playerCounter = 1; // This will not decrease even if a game has finished!!!
+        int playerCounter = 1; // This indicates how many players once joined the game and  will not decrease even if a game has finished!!!
         
 		try {
 			while(true) {
 				if (playerCounter % 4 == 0) bf = new BattleField();
-				server.new Handler(listener.accept(), bf).start();
+				new Handler(listener.accept(), bf).start();
 				++playerCounter;
 			}
 		} finally {
@@ -38,12 +35,12 @@ public class Server {
    	 * A handler thread class.  Handlers are spawned from the listening
      * loop and are responsible for dealing with a single client's requests.
      */
-    private class Handler extends Thread {
+    private static class Handler extends Thread {
     	
     	private byte[] rcv_msg;    //message received from the client
     	
-    	private Socket connection;
-    	private BattleField bf;
+    	private final Socket connection;
+    	private final BattleField bf;
     	private Tank tank;
     	
        	private DataInputStream in;	//stream read from the socket
@@ -59,9 +56,10 @@ public class Server {
         		//initialize Input and Output streams
         		in = new DataInputStream(connection.getInputStream());
     			handShake(); // handshake
+    			
        			while(!bf.isEnded()) {
-        			//receive the message sent from the client
-        			receiveMessage();
+        			
+        			receiveMessage();  //receive the message sent from the client
         			
        				int msg_type = byteArrayToInt(rcv_msg);
        	      		
@@ -71,7 +69,7 @@ public class Server {
        	      			// DO NOTHING
        	      		}
        	      		break;
-       	      		// 
+       	      		// Move
        	      		case 1: {
        	      			tank.move(Direction.UP);
        	      		}
@@ -175,14 +173,15 @@ public class Server {
       		}
       	}
       	
+      	// Convert byte array to int
+      	public int byteArrayToInt(byte[] b) { 
+      		
+      	    return   b[3] & 0xFF |  
+      	            (b[2] & 0xFF) << 8 |  
+      	            (b[1] & 0xFF) << 16 |  
+      	            (b[0] & 0xFF) << 24;  
+      	}
+      	
 	}
   	
-  	// Convert byte array to int
-  	public int byteArrayToInt(byte[] b) { 
-  		
-  	    return   b[3] & 0xFF |  
-  	            (b[2] & 0xFF) << 8 |  
-  	            (b[1] & 0xFF) << 16 |  
-  	            (b[0] & 0xFF) << 24;  
-  	}
 }
