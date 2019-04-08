@@ -495,32 +495,15 @@ public class MultiPlayerGame extends JPanel {
 	}
 	
 	synchronized public void updateField() throws IOException {
-		
-		byte[] b = new byte[BF_SIZE * BF_SIZE * 4];
-		
-		int num = in.read(b);
-		
-		if (num == b.length) {
 			
-			for (int i = 0; i < BF_SIZE; i++) {
+		for (int i = 0; i < BF_SIZE; i++) {
+			
+			for (int j = 0; j < BF_SIZE; j++) {
 				
-				for (int j = 0; j < BF_SIZE; j++) {
+				field[i][j] = in.readInt();
 					
-					int temp = (i + j * i) * 4;
-					
-					field[i][j] = (b[temp + 3] & 0xFF) |  
-		      	            	  (b[temp + 2] & 0xFF) << 8 |  
-		      	            	  (b[temp + 1] & 0xFF) << 16 |  
-		      	            	  (b[temp] & 0xFF) << 24; 
-					
-				}
-				
 			}
-		
-		} else if (num == -1) {
-			
-			setLive(false);
-			
+				
 		}
 			
 	}
