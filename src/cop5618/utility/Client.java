@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
 
 public class Client extends Thread {
 	
@@ -14,7 +13,6 @@ public class Client extends Thread {
 	BattleField bf;
 	private final String hostName;
 	private final int port;
-	byte[] snd_msg;                 //message send to the server
 	int[][] field;
 	boolean fieldUpdated = false;
 	
@@ -38,22 +36,17 @@ public class Client extends Thread {
 			
 			// Send handshake and bitfield message
 			handshake();
-			sendMessage();
 			
 			while(bf.isEnded()) {
 				
 				if (fieldUpdated) {
-					snd_msg = new byte[BattleField.BF_SIZE * BattleField.BF_SIZE * 4];
 					for (int i = 0; i < BattleField.BF_SIZE; ++i) {
 						for (int j = 0; j < BattleField.BF_SIZE; ++j) {
-							byte[] curInt = intToByteArray(4, field[i][j]);
-							System.arraycopy(curInt, 0, snd_msg, i * BattleField.BF_SIZE + j, 4);
+							out.writeInt(field[i][j]);
 						}
 					}
-					sendMessage();
 					fieldUpdated = false;
 				}
-				// TODO
 				
 			}
 			
@@ -74,34 +67,22 @@ public class Client extends Thread {
 			}
 		}
 	}
-	
-	private void sendMessage() throws IOException {
-		
-  		if (snd_msg != null) {
-  			out.write(snd_msg);
-  	  		out.flush();
-  		}
-  	}
   	
   	private void handshake() {
   		
   		System.out.println("Client send [handshake] message");
-  		snd_msg = new byte[10];
-  		String str = "BATTLECITY";
-  		snd_msg = str.getBytes();
+  		try {
+  			out.writeBytes("BATTLECITY");
+  		} catch (IOException e) {
+  			e.printStackTrace();
+  		}
+  		
   	}
   	
   	public void sendBF(int[][] field) {
   		
   		this.field = field;
   		fieldUpdated = true;
-  	}
-  	
-  	private byte[] intToByteArray(int bits, int value) {
-  		
-  		ByteBuffer b = ByteBuffer.allocate(bits);
-  		b.putInt(value);
-  		return b.array();
   	}
 
 }
