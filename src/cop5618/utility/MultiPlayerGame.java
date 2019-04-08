@@ -62,11 +62,12 @@ public class MultiPlayerGame extends JPanel {
 	}
 	
 	// constants for objects in 2D-array representing the map
-	public static final int MISSILE = 0;
+	public static final int NOTHING = 0;
 	public static final int WALL = -1;						
 	public static final int STELL_WALL = -2;
 	public static final int WATER = -3;
 	public static final int WATER_AND_MISSILE = -4;
+	public static final int MISSILE = -5;
 	
 	public static final int PLAYER_ONE_LEFT = 10;
 	public static final int PLAYER_ONE_RIGHT = 11;
@@ -368,6 +369,11 @@ public class MultiPlayerGame extends JPanel {
 			for (int j = 0; j < BF_SIZE; j++) {
 				
 				switch (field[j][BF_SIZE - 1 - i]) {
+					
+					case NOTHING : {
+						
+					}
+					break;
 					
 					case MISSILE : {
 						
