@@ -41,8 +41,6 @@ public class Server {
      */
     private static class Handler extends Thread {
     	
-    	private byte[] rcv_msg;    //message received from the client
-    	
     	private final Socket connection;
     	private final BattleField bf;
     	private Tank tank;
@@ -144,7 +142,7 @@ public class Server {
       	private void handShake() throws IOException {
       		
       		System.out.println("Receive handshake message!");
-      		rcv_msg = new byte[10];
+      		byte[] rcv_msg = new byte[10];
       		in.read(rcv_msg);
       		String handShakeHeadString = new String(rcv_msg);
       		if (handShakeHeadString.equals("BATTLECITY")) {
