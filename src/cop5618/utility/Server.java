@@ -4,26 +4,30 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import cop5618.utility.Tank.Direction;
 
 public class Server {
 	
 	private static final int port = 5618;
+	private static ArrayList<BattleField> bfs = new ArrayList<BattleField>();
 	
 	public static void main (String[] args) throws Exception {
 		
 		System.out.println("The server is running.");
 		
         ServerSocket listener = new ServerSocket(port);
-        BattleField bf = new BattleField();
-        int playerCounter = 1; // This indicates how many players once joined the game and  will not decrease even if a game has finished!!!
+        int playerCounter = 0; // This indicates how many players once joined the game and  will not decrease even if a game has finished!!!
         
 		try {
 			while(true) {
-				if (playerCounter % 4 == 0) bf = new BattleField();
-				new Handler(listener.accept(), bf).start();
-				++playerCounter;
+				Socket connection = listener.accept();
+				if (playerCounter++ % 4 == 0) {
+					bfs.add(new BattleField());
+					new Thread(bfs.get(bfs.size() - 1)).start();
+				}
+				new Handler(connection, bfs.get(bfs.size() - 1)).start();
 			}
 		} finally {
 			listener.close();
@@ -36,8 +40,6 @@ public class Server {
      * loop and are responsible for dealing with a single client's requests.
      */
     private static class Handler extends Thread {
-    	
-    	private byte[] rcv_msg;    //message received from the client
     	
     	private final Socket connection;
     	private final BattleField bf;
@@ -59,9 +61,7 @@ public class Server {
     			
        			while(!bf.isEnded()) {
         			
-        			receiveMessage();  //receive the message sent from the client
-        			
-       				int msg_type = byteArrayToInt(rcv_msg);
+       				int msg_type = in.readInt();
        	      		
        	      		switch (msg_type) {
        	      		// 
@@ -138,24 +138,15 @@ public class Server {
         	
  		}
       	
-      	private void receiveMessage() throws IOException {
-      		
-      		rcv_msg = new byte[4];
-      		in.read(rcv_msg);
-      	}
-      	
       	// HandShake process
       	private void handShake() throws IOException {
       		
       		System.out.println("Receive handshake message!");
-      		rcv_msg = new byte[10];
+      		byte[] rcv_msg = new byte[10];
       		in.read(rcv_msg);
-      		
       		String handShakeHeadString = new String(rcv_msg);
       		if (handShakeHeadString.equals("BATTLECITY")) {
-      			rcv_msg = new byte[4];
-      			in.read(rcv_msg);
-      			int msg_length = byteArrayToInt(rcv_msg);
+      			int msg_length = in.readInt();;
       			rcv_msg = new byte[msg_length];
       			in.read(rcv_msg);
       			String str = new String(rcv_msg);
@@ -171,15 +162,6 @@ public class Server {
       			System.out.println("Handshake unsuccessful!");
       			// TODO
       		}
-      	}
-      	
-      	// Convert byte array to int
-      	public int byteArrayToInt(byte[] b) { 
-      		
-      	    return   b[3] & 0xFF |  
-      	            (b[2] & 0xFF) << 8 |  
-      	            (b[1] & 0xFF) << 16 |  
-      	            (b[0] & 0xFF) << 24;  
       	}
       	
 	}
