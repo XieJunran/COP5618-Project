@@ -122,6 +122,7 @@ public class MultiPlayerClient extends JFrame {
 			socket = new Socket(serverip, SERVER_PORT);
 			listener = new ServerSocket(CLIENT_PORT);
 			
+			System.out.println("Get out!");
 			out = new DataOutputStream(socket.getOutputStream());
 			out.flush();
 			in = new DataInputStream(listener.accept().getInputStream());
