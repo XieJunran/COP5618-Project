@@ -132,7 +132,9 @@ public class MultiPlayerClient extends JFrame {
 			String handShaking = "BATTLECITY " + localhost.getHostAddress().trim();
 			
 			System.out.println(handShaking);
-			out.writeBytes(handShaking);
+			byte[] handShakingBytes = handShaking.getBytes();
+			// out.writeBytes(handShaking);
+			out.write(handShakingBytes);
 			out.flush();
 			
 			setVisible(false);
