@@ -13,6 +13,7 @@ public class BattleField implements Runnable {
 	public static final int STELL_WALL = -2;							//
 	public static final int WATER = -3;									//
 	public static final int WATER_AND_MISSILE = -4;                     //
+	public static final int MISSILE = -5;								//
 	
 	public static final int BF_SIZE = 24;
 	
@@ -83,12 +84,15 @@ public class BattleField implements Runnable {
 	@Override
 	public void run() {
 		while((!started) || (started && !ended)) {
+			System.out.println("Battle Field is running");
 			UpdateBattleField();
 			int[][] copyOfField = getCopyOfField();
 			clientListLock.lock();
 			try {
-				for(Client client : clientList)
+				for(Client client : clientList) {
 					client.sendBF(copyOfField);
+					System.out.println("Sent bf to " + client.toString());
+				}
 			}finally {
 				clientListLock.unlock();
 			}
@@ -349,6 +353,7 @@ public class BattleField implements Runnable {
 			clientList.add(client);
 			if(playerNum.get() >= MIN_PLAYER_NUM)
 				started = true;
+			System.out.println("A new tank has been added");
 			return tank;
 		}finally {
 			fieldLock.unlock();
@@ -382,7 +387,16 @@ public class BattleField implements Runnable {
 							copyOfField[i][j] = val;
 						}
 					}else {
-						copyOfField[i][j] = field[i][j];
+						boolean hasMissileFlyingOver = false;
+						for(Missile missile : missileList.values()) {
+							if(missile.x == i && missile.y == j)
+								hasMissileFlyingOver = true;
+						}
+						if(!hasMissileFlyingOver) {
+							copyOfField[i][j] = field[i][j];
+						}else {
+							copyOfField[i][j] = MISSILE;
+						}
 					}
 				}
 			}
