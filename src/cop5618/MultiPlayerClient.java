@@ -20,7 +20,8 @@ import cop5618.utility.MultiPlayerGame;
 @SuppressWarnings("serial")
 public class MultiPlayerClient extends JFrame {
 	
-	private static final int port = 5618;
+	private static final int SERVER_PORT = 5618;
+	private static final int CLIENT_PORT = 5619;
 	
 	private static final int scrw = 800;
 	private static final int scrh = 800;
@@ -118,8 +119,8 @@ public class MultiPlayerClient extends JFrame {
 		try {
 			
 			System.out.println("Creating Socket to " + serverip + " !");
-			socket = new Socket(serverip, port);
-			listener = new ServerSocket(port);
+			socket = new Socket(serverip, SERVER_PORT);
+			listener = new ServerSocket(CLIENT_PORT);
 			
 			out = new DataOutputStream(socket.getOutputStream());
 			out.flush();
