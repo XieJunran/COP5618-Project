@@ -4,30 +4,29 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import cop5618.utility.Tank.Direction;
 
 public class Server {
 	
 	private static final int port = 5618;
-	private static ArrayList<BattleField> bfs = new ArrayList<BattleField>();
 	
 	public static void main (String[] args) throws Exception {
 		
 		System.out.println("The server is running.");
 		
         ServerSocket listener = new ServerSocket(port);
+        BattleField bf = null;
         int playerCounter = 0; // This indicates how many players once joined the game and  will not decrease even if a game has finished!!!
         
 		try {
 			while(true) {
 				Socket connection = listener.accept();
 				if (playerCounter++ % 4 == 0) {
-					bfs.add(new BattleField());
-					new Thread(bfs.get(bfs.size() - 1)).start();
+					bf = new BattleField();
+					new Thread(bf).start();
 				}
-				new Handler(connection, bfs.get(bfs.size() - 1)).start();
+				new Handler(connection, bf).start();
 			}
 		} finally {
 			listener.close();
