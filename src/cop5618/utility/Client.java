@@ -14,7 +14,7 @@ public class Client extends Thread {
 	private final String hostName;
 	private final int port;
 	int[][] field;
-	boolean fieldUpdated = false;
+	private volatile boolean fieldUpdated = false;
 	
 
 	public Client(String hostName, int port, BattleField bf) {

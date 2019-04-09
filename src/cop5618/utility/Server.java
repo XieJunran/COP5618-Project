@@ -155,7 +155,6 @@ public class Server {
       			Client client = new Client(host, port, bf);
       			tank = bf.AddTank(client);
       			client.start();
-      			// TODO
       		}
       		else {
       			System.out.println("Handshake unsuccessful!");
