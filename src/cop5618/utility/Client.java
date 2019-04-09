@@ -39,6 +39,7 @@ public class Client extends Thread {
 			while(!bf.isEnded()) {
 				
 				if (fieldUpdated) {
+					out.writeInt(0);
 					for (int i = 0; i < BattleField.BF_SIZE; ++i) {
 						for (int j = 0; j < BattleField.BF_SIZE; ++j) {
 							out.writeInt(field[i][j]);
@@ -49,6 +50,9 @@ public class Client extends Thread {
 				}
 				
 			}
+			
+			out.writeInt(1);
+			out.flush();
 			
 		} catch (ConnectException e) {
     		System.err.println("Connection refused. You need to initiate a server first.");
