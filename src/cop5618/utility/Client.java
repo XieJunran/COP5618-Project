@@ -72,7 +72,7 @@ public class Client extends Thread {
   		
   		System.out.println("Client send [handshake] message");
   		try {
-  			out.writeBytes("BATTLECITY");
+  			out.write("BATTLECITY".getBytes());
   		} catch (IOException e) {
   			e.printStackTrace();
   		}
