@@ -11,6 +11,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -127,52 +128,52 @@ public class MultiPlayerGame extends JPanel {
 			int key = e.getKeyCode();
 			
 			switch(key) {
-			case KeyEvent.VK_UP : {
+				case KeyEvent.VK_UP : {
+					
+					setMoved(true);
+					setDirection(UP);
+					// System.out.println("Moved up");
+					
+				}
+				break;
 				
-				setMoved(true);
-				setDirection(UP);
-				// System.out.println("Moved up");
+				case KeyEvent.VK_DOWN : {
+					
+					setMoved(true);
+					setDirection(DOWN);
+					// System.out.println("Moved down");
+					
+				}
+				break;
 				
-			}
-			break;
-			
-			case KeyEvent.VK_DOWN : {
+				case KeyEvent.VK_LEFT : {
+					
+					setMoved(true);
+					setDirection(LEFT);
+					// System.out.println("Moved left");
+					
+				}
+				break;
 				
-				setMoved(true);
-				setDirection(DOWN);
-				// System.out.println("Moved down");
+				case KeyEvent.VK_RIGHT : {
+					
+					setMoved(true);
+					setDirection(RIGHT);
+					// System.out.println("Moved right");
+					
+				}
+				break;
 				
-			}
-			break;
-			
-			case KeyEvent.VK_LEFT : {
+				case KeyEvent.VK_SPACE: {
+					
+					setFired(true);
+					// System.out.println("Fired");
+					
+				}
+				break;
 				
-				setMoved(true);
-				setDirection(LEFT);
-				// System.out.println("Moved left");
+				default: {}
 				
-			}
-			break;
-			
-			case KeyEvent.VK_RIGHT : {
-				
-				setMoved(true);
-				setDirection(RIGHT);
-				// System.out.println("Moved right");
-				
-			}
-			break;
-			
-			case KeyEvent.VK_SPACE: {
-				
-				setFired(true);
-				// System.out.println("Fired");
-				
-			}
-			break;
-			
-			default: {}
-			
 			}
 			
 	    }
@@ -257,9 +258,10 @@ public class MultiPlayerGame extends JPanel {
 					
 				}
 				
+				
 				try {
 					
-					Thread.sleep(100);
+					Thread.sleep(10);
 					
 				} catch (InterruptedException e) {
 					
@@ -293,8 +295,9 @@ public class MultiPlayerGame extends JPanel {
 				}
 				
 				try {
+				
 					
-					Thread.sleep(100);
+					Thread.sleep(10);
 					
 				} catch (InterruptedException e) {
 					
@@ -488,6 +491,15 @@ public class MultiPlayerGame extends JPanel {
 	}
 	
 	synchronized public void updateField() throws IOException {
+		
+		int gamestatus = in.readInt();
+		
+		if(gamestatus != 0) {
+			
+			setLive(false);
+			JOptionPane.showMessageDialog(null, "Player " + gamestatus + " Wins!");
+			
+		}
 		
 		for (int i = 0; i < BF_SIZE; i++) {
 			

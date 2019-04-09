@@ -128,7 +128,7 @@ public class MultiPlayerClient extends JFrame {
 			// InetAddress localhost = InetAddress.getLocalHost();
 			String handShaking = "BATTLECITY";
 			// String IP = localhost.getHostAddress().trim();
-			String IP = "192.168.137.170";
+			String IP = "127.0.0.1";
 			System.out.println(IP);
 			int len = IP.length();
 			
