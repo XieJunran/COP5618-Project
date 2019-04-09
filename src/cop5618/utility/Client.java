@@ -8,19 +8,18 @@ import java.net.UnknownHostException;
 
 public class Client extends Thread {
 	
-	Socket requestSocket;           //socket connect to the server
+	private Socket requestSocket;           //socket connect to the server
+	private final int CLIENT_PORT = 5619;
 	DataOutputStream out;           //stream write to the socket
 	BattleField bf;
 	private final String hostName;
-	private final int port;
 	int[][] field;
 	private volatile boolean fieldUpdated = false;
 	
 
-	public Client(String hostName, int port, BattleField bf) {
+	public Client(String hostName, BattleField bf) {
 		
 		this.hostName = hostName;
-		this.port = port;
 		this.bf = bf;
 	}
 
@@ -28,7 +27,7 @@ public class Client extends Thread {
 		
 		try {
 			//create a socket to connect to the server
-			requestSocket = new Socket(hostName, port);
+			requestSocket = new Socket(hostName, CLIENT_PORT);
 			
 			//initialize inputStream and outputStream
 			out = new DataOutputStream(requestSocket.getOutputStream());

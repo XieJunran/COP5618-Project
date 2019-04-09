@@ -10,11 +10,10 @@ import cop5618.utility.Tank.Direction;
 public class Server {
 	
 	private static final int port = 5618;
-	private static final int CLIENT_PORT = 5619;
 	
 	public static void main (String[] args) throws Exception {
 		
-		System.out.println("The server is running.");
+		System.out.println("Server is running.");
 		
         ServerSocket listener = new ServerSocket(port);
         BattleField bf = null;
@@ -55,9 +54,8 @@ public class Server {
         public void run() {
         	
         	try{
-        		//initialize Input and Output streams
         		in = new DataInputStream(connection.getInputStream());
-    			handShake(); // handshake
+    			handShake();
     			
        			while(!bf.isEnded()) {
         			
@@ -119,7 +117,7 @@ public class Server {
        	      		}
        	      		break;
        	      		default: {
-       	      			System.out.println("invalid message type!");
+       	      			System.err.println("Invalid message type!");
        	      		}
        	      		}
         		}
@@ -150,12 +148,12 @@ public class Server {
       			rcv_msg = new byte[msg_length];
       			in.read(rcv_msg);
       			String host = new String(rcv_msg);
-      			Client client = new Client(host, CLIENT_PORT, bf);
+      			Client client = new Client(host, bf);
       			tank = bf.AddTank(client);
       			client.start();
       		}
       		else {
-      			System.out.println("Handshake unsuccessful!");
+      			System.err.println("Handshake unsuccessful!");
       			// TODO
       		}
       	}
