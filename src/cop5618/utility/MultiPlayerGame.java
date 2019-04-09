@@ -131,6 +131,7 @@ public class MultiPlayerGame extends JPanel {
 				
 				setMoved(true);
 				setDirection(UP);
+				System.out.println("Moved up");
 				
 			}
 			break;
@@ -139,6 +140,7 @@ public class MultiPlayerGame extends JPanel {
 				
 				setMoved(true);
 				setDirection(DOWN);
+				System.out.println("Moved down");
 				
 			}
 			break;
@@ -147,6 +149,7 @@ public class MultiPlayerGame extends JPanel {
 				
 				setMoved(true);
 				setDirection(LEFT);
+				System.out.println("Moved left");
 				
 			}
 			break;
@@ -155,6 +158,7 @@ public class MultiPlayerGame extends JPanel {
 				
 				setMoved(true);
 				setDirection(RIGHT);
+				System.out.println("Moved right");
 				
 			}
 			break;
@@ -162,6 +166,7 @@ public class MultiPlayerGame extends JPanel {
 			case KeyEvent.VK_SPACE: {
 				
 				setFired(true);
+				System.out.println("Fired");
 				
 			}
 			break;
@@ -203,10 +208,14 @@ public class MultiPlayerGame extends JPanel {
 		
 		public void run() {
 			
+			System.out.println("Sender Running!");
+			
 			while(isLive()) {
 				
 				boolean m = isMoved();
 				boolean f = isFired();
+				
+				System.out.println("Try to send!");
 				
 				setMoved(false);
 				setFired(false);
@@ -216,6 +225,7 @@ public class MultiPlayerGame extends JPanel {
 					try {
 						
 						out.writeInt(direction + 4);
+						System.out.println(direction + 4);
 						out.flush();
 						
 					} catch (IOException e) {
@@ -230,6 +240,7 @@ public class MultiPlayerGame extends JPanel {
 					try {
 						
 						out.writeInt(direction);
+						System.out.println(direction);
 						out.flush();
 						
 					} catch (IOException e) {
@@ -244,6 +255,7 @@ public class MultiPlayerGame extends JPanel {
 					try {
 						
 						out.writeInt(9);
+						System.out.println(9);
 						out.flush();
 						
 					} catch (IOException e) {
@@ -258,6 +270,7 @@ public class MultiPlayerGame extends JPanel {
 					try {
 						
 						out.writeInt(0);
+						System.out.println(0);
 						out.flush();
 						
 					} catch (IOException e) {
@@ -294,7 +307,7 @@ public class MultiPlayerGame extends JPanel {
 				try {
 					
 					updateField();
-					System.out.println("Map got!");
+					// System.out.println("Map got!");
 					
 				} catch (IOException e) {
 					
@@ -330,12 +343,12 @@ public class MultiPlayerGame extends JPanel {
 		setBounds(0, 0, scrw, scrh);
 		setLayout(null);
 		
+		setLive(true);
+		
 		addKeyListener(new KeyBoardListener());
 		
 		new Thread(new Sender()).start();
 		new Thread(new Receiver()).start();
-		
-		isLive = true;
 		
 	}
 	
@@ -500,34 +513,14 @@ public class MultiPlayerGame extends JPanel {
 	
 	synchronized public void updateField() throws IOException {
 		
-		boolean isTheSameMap = true;
-		
 		for (int i = 0; i < BF_SIZE; i++) {
 			
 			for (int j = 0; j < BF_SIZE; j++) {
 				
-				int temp = in.readInt();
-				if (temp != field[i][j]) {
-					
-					isTheSameMap = true;
-					
-				}
-				// System.out.println(i + " " + j + " ");
-				field[i][j] = temp;
-				// System.out.println(field[i][j]);
+				field[i][j] = in.readInt();
 				
 			}
 				
-		}
-		
-		if (isTheSameMap) {
-			
-			System.out.println("Is the same map");
-			
-		} else {
-			
-			System.out.println("Is not the same map");
-			
 		}
 		
 	}
