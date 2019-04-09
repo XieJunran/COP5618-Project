@@ -6,7 +6,7 @@ import java.awt.EventQueue;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
+// import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -137,12 +137,12 @@ public class MultiPlayerClient extends JFrame {
 			out.write(IP.getBytes());
 			out.flush();
 			
-			System.out.println("Try to accept!");
 			in = new DataInputStream(listener.accept().getInputStream());
 			
 			byte[] shakeBack = new byte[10];
 			in.read(shakeBack);
 			String shakeBackStr = new String(shakeBack);
+			System.out.println(shakeBackStr);
 			
 			if(!shakeBackStr.equals("BATTLECITY")) {
 								

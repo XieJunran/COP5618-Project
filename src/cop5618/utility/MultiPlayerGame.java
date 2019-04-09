@@ -294,6 +294,7 @@ public class MultiPlayerGame extends JPanel {
 				try {
 					
 					updateField();
+					System.out.println("Map got!");
 					
 				} catch (IOException e) {
 					
@@ -330,6 +331,9 @@ public class MultiPlayerGame extends JPanel {
 		setLayout(null);
 		
 		addKeyListener(new KeyBoardListener());
+		
+		new Thread(new Sender()).start();
+		new Thread(new Receiver()).start();
 		
 		isLive = true;
 		
@@ -500,8 +504,10 @@ public class MultiPlayerGame extends JPanel {
 			
 			for (int j = 0; j < BF_SIZE; j++) {
 				
+				System.out.println(i + " " + j + " ");
 				field[i][j] = in.readInt();
-					
+				System.out.println(field[i][j]);
+				
 			}
 				
 		}
