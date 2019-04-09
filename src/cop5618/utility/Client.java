@@ -10,10 +10,10 @@ public class Client extends Thread {
 	
 	private Socket requestSocket;           //socket connect to the server
 	private final int CLIENT_PORT = 5619;
-	DataOutputStream out;           //stream write to the socket
-	BattleField bf;
+	private DataOutputStream out;           //stream write to the socket
+	private BattleField bf;
 	private final String hostName;
-	int[][] field;
+	private int[][] field;
 	private volatile boolean fieldUpdated = false;
 	
 
