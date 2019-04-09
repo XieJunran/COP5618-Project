@@ -13,6 +13,7 @@ public class BattleField implements Runnable {
 	public static final int STELL_WALL = -2;							//
 	public static final int WATER = -3;									//
 	public static final int WATER_AND_MISSILE = -4;                     //
+	public static final int MISSILE = -5;								//
 	
 	public static final int BF_SIZE = 24;
 	
@@ -83,12 +84,15 @@ public class BattleField implements Runnable {
 	@Override
 	public void run() {
 		while((!started) || (started && !ended)) {
+			System.out.println("Battle Field is running");
 			UpdateBattleField();
 			int[][] copyOfField = getCopyOfField();
 			clientListLock.lock();
 			try {
-				for(Client client : clientList)
+				for(Client client : clientList) {
 					client.sendBF(copyOfField);
+					System.out.println("Sent bf to " + client.toString());
+				}
 			}finally {
 				clientListLock.unlock();
 			}
@@ -349,6 +353,7 @@ public class BattleField implements Runnable {
 			clientList.add(client);
 			if(playerNum.get() >= MIN_PLAYER_NUM)
 				started = true;
+			System.out.println("A new tank has been added");
 			return tank;
 		}finally {
 			fieldLock.unlock();
@@ -363,20 +368,18 @@ public class BattleField implements Runnable {
 		tankListLock.lock();
 		try {
 			int[][] copyOfField = new int[BF_SIZE][BF_SIZE];
+			for(Missile missile : missileList.values()) {
+				if(field[missile.x][missile.y] == WATER) {
+					copyOfField[missile.x][missile.y] = WATER_AND_MISSILE;
+				}else {
+					copyOfField[missile.x][missile.y] = MISSILE;
+				}
+			}
 			for(int i = 0; i < BF_SIZE; i++) {
 				for(int j = 0; j < BF_SIZE; j++) {
-					if(field[i][j] == WATER) {
-						boolean hasMissileFlyingOver = false;
-						for(Missile missile : missileList.values()) {
-							if(missile.x == i && missile.y == j)
-								hasMissileFlyingOver = true;
-						}
-						if(hasMissileFlyingOver) {
-							copyOfField[i][j] = WATER_AND_MISSILE;
-						}else {
-							copyOfField[i][j] = WATER;
-						}
-					}else if(field[i][j] > 0){
+					if(copyOfField[i][j] == WATER_AND_MISSILE || copyOfField[i][j] == MISSILE)
+						continue;
+					if(field[i][j] > 0){
 						for(Tank tank : tankList) {
 							int val = tank.type.getValue() * 10 + tank.getDirection().getValue(); 
 							copyOfField[i][j] = val;

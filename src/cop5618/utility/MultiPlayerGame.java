@@ -62,11 +62,12 @@ public class MultiPlayerGame extends JPanel {
 	}
 	
 	// constants for objects in 2D-array representing the map
-	public static final int MISSILE = 0;
+	public static final int NOTHING = 0;
 	public static final int WALL = -1;						
 	public static final int STELL_WALL = -2;
 	public static final int WATER = -3;
 	public static final int WATER_AND_MISSILE = -4;
+	public static final int MISSILE = -5;
 	
 	public static final int PLAYER_ONE_LEFT = 10;
 	public static final int PLAYER_ONE_RIGHT = 11;
@@ -369,6 +370,11 @@ public class MultiPlayerGame extends JPanel {
 				
 				switch (field[j][BF_SIZE - 1 - i]) {
 					
+					case NOTHING : {
+						
+					}
+					break;
+					
 					case MISSILE : {
 						
 						g2d.drawImage(
@@ -489,32 +495,15 @@ public class MultiPlayerGame extends JPanel {
 	}
 	
 	synchronized public void updateField() throws IOException {
-		
-		byte[] b = new byte[BF_SIZE * BF_SIZE * 4];
-		
-		int num = in.read(b);
-		
-		if (num == b.length) {
 			
-			for (int i = 0; i < BF_SIZE; i++) {
+		for (int i = 0; i < BF_SIZE; i++) {
+			
+			for (int j = 0; j < BF_SIZE; j++) {
 				
-				for (int j = 0; j < BF_SIZE; j++) {
+				field[i][j] = in.readInt();
 					
-					int temp = (i + j * i) * 4;
-					
-					field[i][j] = (b[temp + 3] & 0xFF) |  
-		      	            	  (b[temp + 2] & 0xFF) << 8 |  
-		      	            	  (b[temp + 1] & 0xFF) << 16 |  
-		      	            	  (b[temp] & 0xFF) << 24; 
-					
-				}
-				
 			}
-		
-		} else if (num == -1) {
-			
-			setLive(false);
-			
+				
 		}
 			
 	}

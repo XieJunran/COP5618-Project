@@ -97,7 +97,6 @@ public class MultiPlayerClient extends JFrame {
 				
 			}
 			
-			
 			game.removeAll();
 			play.remove(game);
 			play.dispose();
@@ -122,20 +121,34 @@ public class MultiPlayerClient extends JFrame {
 			socket = new Socket(serverip, SERVER_PORT);
 			listener = new ServerSocket(CLIENT_PORT);
 			
-			System.out.println("Get out!");
 			out = new DataOutputStream(socket.getOutputStream());
 			out.flush();
-			in = new DataInputStream(listener.accept().getInputStream());
 			
 			System.out.println("HandShaking with the server!");
-			InetAddress localhost = InetAddress.getLocalHost();
-			String handShaking = "BATTLECITY " + localhost.getHostAddress().trim();
+			// InetAddress localhost = InetAddress.getLocalHost();
+			String handShaking = "BATTLECITY";
+			// String IP = localhost.getHostAddress().trim();
+			String IP = "192.168.137.170";
+			System.out.println(IP);
+			int len = IP.length();
 			
-			System.out.println(handShaking);
-			byte[] handShakingBytes = handShaking.getBytes();
-			// out.writeBytes(handShaking);
-			out.write(handShakingBytes);
+			out.write(handShaking.getBytes());
+			out.writeInt(len);
+			out.write(IP.getBytes());
 			out.flush();
+			
+			System.out.println("Try to accept!");
+			in = new DataInputStream(listener.accept().getInputStream());
+			
+			byte[] shakeBack = new byte[10];
+			in.read(shakeBack);
+			String shakeBackStr = new String(shakeBack);
+			
+			if(!shakeBackStr.equals("BATTLECITY")) {
+								
+				throw new Exception("not the right server");
+				
+			}
 			
 			setVisible(false);
 		
@@ -154,6 +167,9 @@ public class MultiPlayerClient extends JFrame {
 			System.err.println("Cannot connect to " + serverip + " !");
 			e.printStackTrace();
 			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
 		}
 		
 	}
