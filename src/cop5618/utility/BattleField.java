@@ -96,11 +96,14 @@ public class BattleField implements Runnable {
 			}finally {
 				clientListLock.unlock();
 			}
+			
 			try {
-				Thread.sleep(100);
+			 
+				Thread.sleep(10);
 			}catch(InterruptedException e){
 				e.printStackTrace();
 			}
+			
 		}
 	}
 	
