@@ -522,7 +522,11 @@ public class MultiPlayerGame extends JPanel {
 		
 		if (isTheSameMap) {
 			
-			System.out.print("Is the same map");
+			System.out.println("Is the same map");
+			
+		} else {
+			
+			System.out.println("Is not the same map");
 			
 		}
 		
