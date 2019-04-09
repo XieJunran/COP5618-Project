@@ -10,6 +10,7 @@ import cop5618.utility.Tank.Direction;
 public class Server {
 	
 	private static final int port = 5618;
+	private static final int CLIENT_PORT = 5619;
 	
 	public static void main (String[] args) throws Exception {
 		
@@ -148,11 +149,8 @@ public class Server {
       			int msg_length = in.readInt();;
       			rcv_msg = new byte[msg_length];
       			in.read(rcv_msg);
-      			String str = new String(rcv_msg);
-      			String[] hostAndPort = str.split(" ");
-      			String host = hostAndPort[0];
-      			int port = Integer.parseInt(hostAndPort[1]);
-      			Client client = new Client(host, port, bf);
+      			String host = new String(rcv_msg);
+      			Client client = new Client(host, CLIENT_PORT, bf);
       			tank = bf.AddTank(client);
       			client.start();
       		}
