@@ -131,7 +131,7 @@ public class MultiPlayerGame extends JPanel {
 				
 				setMoved(true);
 				setDirection(UP);
-				System.out.println("Moved up");
+				// System.out.println("Moved up");
 				
 			}
 			break;
@@ -140,7 +140,7 @@ public class MultiPlayerGame extends JPanel {
 				
 				setMoved(true);
 				setDirection(DOWN);
-				System.out.println("Moved down");
+				// System.out.println("Moved down");
 				
 			}
 			break;
@@ -149,7 +149,7 @@ public class MultiPlayerGame extends JPanel {
 				
 				setMoved(true);
 				setDirection(LEFT);
-				System.out.println("Moved left");
+				// System.out.println("Moved left");
 				
 			}
 			break;
@@ -158,7 +158,7 @@ public class MultiPlayerGame extends JPanel {
 				
 				setMoved(true);
 				setDirection(RIGHT);
-				System.out.println("Moved right");
+				// System.out.println("Moved right");
 				
 			}
 			break;
@@ -166,7 +166,7 @@ public class MultiPlayerGame extends JPanel {
 			case KeyEvent.VK_SPACE: {
 				
 				setFired(true);
-				System.out.println("Fired");
+				// System.out.println("Fired");
 				
 			}
 			break;
@@ -176,31 +176,6 @@ public class MultiPlayerGame extends JPanel {
 			}
 			
 	    }
-		
-	}
-	
-	// draw class used for repeatedly repaint until the game is dead
-	class Draw implements Runnable {
-		
-		public void run() {
-			
-			while(isLive()) {
-				
-				repaint();
-				
-				try {
-					
-					Thread.sleep(100);
-					
-				} catch (InterruptedException e) {
-					
-					e.printStackTrace();
-					
-				}
-				
-			}
-			
-		}
 		
 	}
 	
@@ -215,7 +190,7 @@ public class MultiPlayerGame extends JPanel {
 				boolean m = isMoved();
 				boolean f = isFired();
 				
-				System.out.println("Try to send!");
+				// System.out.println("Try to send!");
 				
 				setMoved(false);
 				setFired(false);
@@ -225,7 +200,7 @@ public class MultiPlayerGame extends JPanel {
 					try {
 						
 						out.writeInt(direction + 4);
-						System.out.println(direction + 4);
+						// System.out.println(direction + 4);
 						out.flush();
 						
 					} catch (IOException e) {
@@ -240,7 +215,7 @@ public class MultiPlayerGame extends JPanel {
 					try {
 						
 						out.writeInt(direction);
-						System.out.println(direction);
+						// System.out.println(direction);
 						out.flush();
 						
 					} catch (IOException e) {
@@ -255,7 +230,7 @@ public class MultiPlayerGame extends JPanel {
 					try {
 						
 						out.writeInt(9);
-						System.out.println(9);
+						// System.out.println(9);
 						out.flush();
 						
 					} catch (IOException e) {
@@ -270,7 +245,7 @@ public class MultiPlayerGame extends JPanel {
 					try {
 						
 						out.writeInt(0);
-						System.out.println(0);
+						// System.out.println(0);
 						out.flush();
 						
 					} catch (IOException e) {
@@ -307,6 +282,7 @@ public class MultiPlayerGame extends JPanel {
 				try {
 					
 					updateField();
+					repaint();
 					// System.out.println("Map got!");
 					
 				} catch (IOException e) {
@@ -518,6 +494,7 @@ public class MultiPlayerGame extends JPanel {
 			for (int j = 0; j < BF_SIZE; j++) {
 				
 				field[i][j] = in.readInt();
+				System.out.print(field[i][j] + " ");
 				
 			}
 				
