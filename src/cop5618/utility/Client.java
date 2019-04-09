@@ -36,15 +36,17 @@ public class Client extends Thread {
 			
 			// Send handshake and bitfield message
 			handshake();
-			
+			System.out.println("Hand shake is over");
 			while(!bf.isEnded()) {
-				
 				if (fieldUpdated) {
+					System.out.println("Time to send all bytes");
 					for (int i = 0; i < BattleField.BF_SIZE; ++i) {
 						for (int j = 0; j < BattleField.BF_SIZE; ++j) {
 							out.writeInt(field[i][j]);
+							System.out.print(field[i][j] + " ");
 						}
 					}
+					System.out.println();
 					out.flush();
 					fieldUpdated = false;
 				}
@@ -81,7 +83,7 @@ public class Client extends Thread {
   	}
   	
   	public void sendBF(int[][] field) {
-  		
+  		System.out.println("Client has entered sentBF");
   		this.field = field;
   		fieldUpdated = true;
   	}
