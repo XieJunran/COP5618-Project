@@ -494,7 +494,7 @@ public class MultiPlayerGame extends JPanel {
 			for (int j = 0; j < BF_SIZE; j++) {
 				
 				field[i][j] = in.readInt();
-				System.out.print(field[i][j] + " ");
+				// System.out.print(field[i][j] + " ");
 				
 			}
 				
