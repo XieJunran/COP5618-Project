@@ -144,7 +144,7 @@ public class Server {
       		in.read(rcv_msg);
       		String handShakeHeadString = new String(rcv_msg);
       		if (handShakeHeadString.equals("BATTLECITY")) {
-      			int msg_length = in.readInt();;
+      			int msg_length = in.readInt();
       			rcv_msg = new byte[msg_length];
       			in.read(rcv_msg);
       			String host = new String(rcv_msg);
