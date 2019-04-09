@@ -39,7 +39,7 @@ public class Tank {
 	
 	private volatile boolean moved = false;								// If the tank is moved in current frame
 	private volatile boolean fired = false;								// If the tank fires in current frame
-	private volatile boolean isAlive = false;							// If the tank is still alive
+	private volatile boolean isAlive = true;							// If the tank is still alive
 	
 	public final ReentrantLock genLock = new ReentrantLock();			// Guard the direction, moved, fired, isAlive, x and y
 	
