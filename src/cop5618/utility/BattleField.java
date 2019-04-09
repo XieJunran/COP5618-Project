@@ -268,12 +268,15 @@ public class BattleField implements Runnable {
 			
 			for (Tank tank : tankList) {
 				tank.genLock.lock();
+				System.out.println("Tank id: " + tank.tankID + " Moved: " + tank.getMoved() + " Alive: " + tank.getAlive());
 				try {
 					if (tank.getAlive()) {
 						if (tank.getMoved()) {
+							System.out.println("Tank " + tank.tankID + " is moving");
 							Direction d = tank.getDirection();
 							int posX = tank.getPosX();
 							int posY = tank.getPosY();
+							System.out.println("PosX: " + posX + " PosY: " + posY + " Direction: " + d);
 							switch (d) {
 							case LEFT: {
 								if (posX != 0 && field[posX - 1][posY] == 0) {
@@ -381,8 +384,11 @@ public class BattleField implements Runnable {
 						continue;
 					if(field[i][j] > 0){
 						for(Tank tank : tankList) {
-							int val = tank.type.getValue() * 10 + tank.getDirection().getValue(); 
-							copyOfField[i][j] = val;
+							if(tank.tankID == field[i][j]) {
+								int val = tank.type.getValue() * 10 + tank.getDirection().getValue(); 
+								copyOfField[i][j] = val;
+								break;
+							}
 						}
 					}else {
 						copyOfField[i][j] = field[i][j];

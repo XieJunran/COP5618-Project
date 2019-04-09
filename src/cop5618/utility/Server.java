@@ -62,6 +62,7 @@ public class Server {
        			while(!bf.isEnded()) {
         			
        				int msg_type = in.readInt();
+       				System.out.println("Server heards " + msg_type + " moving message");
        	      		
        	      		switch (msg_type) {
        	      		// 
@@ -157,6 +158,7 @@ public class Server {
       		else {
       			System.out.println("Handshake unsuccessful!");
       			// TODO
+      			//
       		}
       	}
       	
