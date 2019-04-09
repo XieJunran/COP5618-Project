@@ -37,7 +37,7 @@ public class Client extends Thread {
 			// Send handshake and bitfield message
 			handshake();
 			
-			while(bf.isEnded()) {
+			while(!bf.isEnded()) {
 				
 				if (fieldUpdated) {
 					for (int i = 0; i < BattleField.BF_SIZE; ++i) {
