@@ -460,10 +460,10 @@ public class MultiPlayerGame extends JPanel {
 					
 					default: {
 						
-						if ((field[j][BF_SIZE - 1 - i] >= 10 && field[j][BF_SIZE - 1 - i] <= 13) &&
-							(field[j][BF_SIZE - 1 - i] >= 20 && field[j][BF_SIZE - 1 - i] <= 23) &&
-							(field[j][BF_SIZE - 1 - i] >= 30 && field[j][BF_SIZE - 1 - i] <= 33) &&
-							(field[j][BF_SIZE - 1 - i] >= 40 && field[j][BF_SIZE - 1 - i] <= 43) &&
+						if ((field[j][BF_SIZE - 1 - i] >= 10 && field[j][BF_SIZE - 1 - i] <= 13) ||
+							(field[j][BF_SIZE - 1 - i] >= 20 && field[j][BF_SIZE - 1 - i] <= 23) ||
+							(field[j][BF_SIZE - 1 - i] >= 30 && field[j][BF_SIZE - 1 - i] <= 33) ||
+							(field[j][BF_SIZE - 1 - i] >= 40 && field[j][BF_SIZE - 1 - i] <= 43) ||
 							(field[j][BF_SIZE - 1 - i] >= 50 && field[j][BF_SIZE - 1 - i] <= 53)) {
 							
 							int id = field[j][BF_SIZE - 1 - i] / 10 - 1;
@@ -471,10 +471,10 @@ public class MultiPlayerGame extends JPanel {
 							
 							g2d.drawImage(
 									Images[id * 4 + d],
-									j * imgw + (imgw - missilew) / 2,
-									i * imgh + (imgh - missileh) / 2,
-									missilew,
-									missileh,
+									j * imgw,
+									i * imgh,
+									imgw,
+									imgh,
 									null
 							);
 							
@@ -499,19 +499,33 @@ public class MultiPlayerGame extends JPanel {
 	}
 	
 	synchronized public void updateField() throws IOException {
-			
+		
+		boolean isTheSameMap = true;
+		
 		for (int i = 0; i < BF_SIZE; i++) {
 			
 			for (int j = 0; j < BF_SIZE; j++) {
 				
-				System.out.println(i + " " + j + " ");
-				field[i][j] = in.readInt();
-				System.out.println(field[i][j]);
+				int temp = in.readInt();
+				if (temp != field[i][j]) {
+					
+					isTheSameMap = true;
+					
+				}
+				// System.out.println(i + " " + j + " ");
+				field[i][j] = temp;
+				// System.out.println(field[i][j]);
 				
 			}
 				
 		}
+		
+		if (isTheSameMap) {
 			
+			System.out.print("Is the same map");
+			
+		}
+		
 	}
 	
 	synchronized public int getDirection() {
