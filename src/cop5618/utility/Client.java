@@ -45,6 +45,7 @@ public class Client extends Thread {
 							out.writeInt(field[i][j]);
 						}
 					}
+					out.flush();
 					fieldUpdated = false;
 				}
 				
