@@ -261,7 +261,7 @@ public class MultiPlayerGame extends JPanel {
 				
 				try {
 					
-					Thread.sleep(10);
+					Thread.sleep(50);
 					
 				} catch (InterruptedException e) {
 					
@@ -294,6 +294,7 @@ public class MultiPlayerGame extends JPanel {
 					
 				}
 				
+				/*
 				try {
 				
 					
@@ -304,6 +305,7 @@ public class MultiPlayerGame extends JPanel {
 					e.printStackTrace();
 					
 				}
+				*/
 				
 			}
 			
@@ -331,7 +333,7 @@ public class MultiPlayerGame extends JPanel {
 		
 	}
 	
-	synchronized public void update(Graphics g) {
+	public void update(Graphics g) {
 		
 		super.update(g);
 		
@@ -354,7 +356,7 @@ public class MultiPlayerGame extends JPanel {
 		
 	}
 	
-	synchronized public void paint (Graphics g) {
+	public void paint (Graphics g) {
 		
 		super.paint(g);
 		
@@ -490,7 +492,7 @@ public class MultiPlayerGame extends JPanel {
 		
 	}
 	
-	synchronized public void updateField() throws IOException {
+	public void updateField() throws IOException {
 		
 		int gamestatus = in.readInt();
 		
@@ -499,64 +501,66 @@ public class MultiPlayerGame extends JPanel {
 			setLive(false);
 			JOptionPane.showMessageDialog(null, "Player " + gamestatus + " Wins!");
 			
-		}
-		
-		for (int i = 0; i < BF_SIZE; i++) {
+		} else {
 			
-			for (int j = 0; j < BF_SIZE; j++) {
+			for (int i = 0; i < BF_SIZE; i++) {
 				
-				field[i][j] = in.readInt();
-				// System.out.print(field[i][j] + " ");
-				
+				for (int j = 0; j < BF_SIZE; j++) {
+					
+					field[i][j] = in.readInt();
+					// System.out.print(field[i][j] + " ");
+					
+				}
+					
 			}
-				
+			
 		}
 		
 	}
 	
-	synchronized public int getDirection() {
+	public int getDirection() {
 		
 		return direction;
 		
 	}
 
-	synchronized public void setDirection(int d) {
+	public void setDirection(int d) {
 		
 		direction = d;
 		
 	}
 
-	synchronized public boolean isMoved() {
+	public boolean isMoved() {
 		
 		return moved;
 		
 	}
 
-	synchronized public void setMoved(boolean m) {
+	public void setMoved(boolean m) {
 		
 		moved = m;
 		
 	}
 
-	synchronized public boolean isFired() {
+	public boolean isFired() {
 		
 		return fired;
 		
 	}
 
-	synchronized public void setFired(boolean f) {
+	public void setFired(boolean f) {
 		
 		fired = f;
 		
 	}
 
-	synchronized public boolean isLive() {
+	public boolean isLive() {
 		
 		return isLive;
 		
 	}
 
-	synchronized public void setLive(boolean l) {
+	public void setLive(boolean l) {
 		
 		isLive = l;
 		
