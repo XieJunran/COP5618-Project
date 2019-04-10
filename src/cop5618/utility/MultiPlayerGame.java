@@ -26,7 +26,7 @@ public class MultiPlayerGame extends JPanel {
 	private static final int missileh = 16;
 	
 	// width and height for the screens
-	private static final int scrw = 800;
+	private static final int scrw = 780;
 	private static final int scrh = 800;
 	
 	// images cache for all objects

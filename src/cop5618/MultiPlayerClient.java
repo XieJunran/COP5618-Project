@@ -23,7 +23,7 @@ public class MultiPlayerClient extends JFrame {
 	private static final int SERVER_PORT = 5618;
 	private static final int CLIENT_PORT = 5619;
 	
-	private static final int scrw = 800;
+	private static final int scrw = 780;
 	private static final int scrh = 800;
 	
 	private String serverip;
