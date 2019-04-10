@@ -33,7 +33,7 @@ public class BattleField implements Runnable {
 	private ReentrantLock clientListLock = new ReentrantLock();
 	
 	private volatile boolean started = false;
-	private volatile boolean ended = false;
+	private volatile int ended = -1;
 	
 	public BattleField() {
 		field = SafeMapFactory.newMapInstance();
@@ -41,7 +41,7 @@ public class BattleField implements Runnable {
 	
 	@Override
 	public void run() {
-		while((!started) || (started && !ended)) {
+		while((!started) || (started && ended == -1)) {
 			System.out.println("Battle Field is running");
 			UpdateBattleField();
 			int[][] copyOfField = getCopyOfField();
@@ -306,8 +306,20 @@ public class BattleField implements Runnable {
 		}
 	}
 	
-	public boolean isEnded() {
-		return ended;
+	public int isEnded() {
+		if(playerNum.get() != 1 || !started)
+			return 0;
+		tankListLock.lock();
+		try {
+			for(Tank tank : tankList) {
+				if(tank.getAlive())
+					ended = tank.type.getValue();
+			}
+			return ended;
+		}
+		finally {
+			tankListLock.unlock();
+		}
 	}
 	
 }
