@@ -57,7 +57,7 @@ public class Server {
         		in = new DataInputStream(connection.getInputStream());
     			handShake();
     			
-       			while(!bf.isEnded()) {
+       			while(bf.isEnded() == -1) {
         			
        				int msg_type = in.readInt();
        	      		
