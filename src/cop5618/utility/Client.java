@@ -39,7 +39,7 @@ public class Client extends Thread {
 			while(bf.isEnded() == -1) {
 				
 				if (fieldUpdated) {
-					out.writeInt(0);
+					out.writeInt(-1);
 					for (int i = 0; i < BattleField.BF_SIZE; ++i) {
 						for (int j = 0; j < BattleField.BF_SIZE; ++j) {
 							out.writeInt(field[i][j]);
