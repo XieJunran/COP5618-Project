@@ -55,7 +55,7 @@ public class BattleField implements Runnable {
 				clientListLock.unlock();
 			}
 			try {
-				Thread.sleep(10);
+				Thread.sleep(50);
 			}catch(InterruptedException e){
 				e.printStackTrace();
 			}
@@ -307,8 +307,11 @@ public class BattleField implements Runnable {
 	}
 	
 	public int isEnded() {
-		if(playerNum.get() != 1 || !started)
+		if(playerNum.get() != 1 || !started) {
+			// System.out.println("Entered!");
+			
 			return -1;
+		}
 		tankListLock.lock();
 		try {
 			for(Tank tank : tankList) {
