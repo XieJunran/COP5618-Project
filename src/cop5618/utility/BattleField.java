@@ -308,7 +308,7 @@ public class BattleField implements Runnable {
 	
 	public int isEnded() {
 		if(playerNum.get() != 1 || !started)
-			return 0;
+			return -1;
 		tankListLock.lock();
 		try {
 			for(Tank tank : tankList) {
