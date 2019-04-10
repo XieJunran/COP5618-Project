@@ -90,6 +90,11 @@ public class BattleField implements Runnable {
 			// Boundry checking
 			if(missilePosX < 0 || missilePosX >= BF_SIZE || missilePosY < 0 || missilePosY >= BF_SIZE)
 				return;
+			// Missile checking
+			for(Missile otherMissile : missileList.values()) {
+				if(missilePosX == otherMissile.x && missilePosY == otherMissile.y)
+					return;
+			}
 			if(field[missilePosX][missilePosY] == 0 || field[missilePosX][missilePosY] == WATER) {
 				Missile newMissile = new Missile(tank, this, d, missilePosX, missilePosY);
 				missileList.put(newMissile.missileID, newMissile);
