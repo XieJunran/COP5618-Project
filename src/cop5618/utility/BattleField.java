@@ -110,7 +110,7 @@ public class BattleField implements Runnable {
 						if(t.getPosX() == missilePosX && t.getPosY() == missilePosY && t.getAlive()) {
 							t.setAlive(false);
 							playerNum.getAndDecrement();
-							iterator.remove();
+							//iterator.remove();
 							field[missilePosX][missilePosY] = 0;
 						}
 					}finally {
