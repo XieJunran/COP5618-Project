@@ -39,48 +39,6 @@ public class BattleField implements Runnable {
 		field = SafeMapFactory.newMapInstance();
 	}
 	
-	/*
-	public BattleField (Integer whichMap) {
-		
-		String filename = whichMap.toString() + ".map";
-		File mapConfig = new File(filename);
-		BufferedReader reader = null;
-		
-		try {
-			reader = new BufferedReader(new FileReader(mapConfig));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		String curLine = null;
-		
-		try {
-			int rowIndex = 0;
-			
-			while ((curLine = reader.readLine()) != null) {
-				
-				String [] tmpLine = curLine.split(" ");
-				for (int i = 0; i < tmpLine.length; ++i) {
-					field[rowIndex][i] = Integer.parseInt(tmpLine[i]);
-				}
-				++rowIndex;
-				
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e1) {
-                	e1.printStackTrace();
-                }
-            }
-        }
-		
-	}
-	*/
-	
 	@Override
 	public void run() {
 		while((!started) || (started && !ended)) {
@@ -96,14 +54,11 @@ public class BattleField implements Runnable {
 			}finally {
 				clientListLock.unlock();
 			}
-			
 			try {
-			 
 				Thread.sleep(100);
 			}catch(InterruptedException e){
 				e.printStackTrace();
 			}
-			
 		}
 	}
 	
@@ -132,7 +87,9 @@ public class BattleField implements Runnable {
 			}else if(d == Direction.UP) {
 				missilePosY++;
 			}
-			
+			// Boundry checking
+			if(missilePosX < 0 || missilePosX >= BF_SIZE || missilePosY < 0 || missilePosY >= BF_SIZE)
+				return;
 			if(field[missilePosX][missilePosY] == 0 || field[missilePosX][missilePosY] == WATER) {
 				Missile newMissile = new Missile(tank, this, d, missilePosX, missilePosY);
 				missileList.put(newMissile.missileID, newMissile);
@@ -161,76 +118,6 @@ public class BattleField implements Runnable {
 			missileListLock.unlock();
 			tank.genLock.unlock();
 		}
-		
-		/*
-		switch (d) {
-		case LEFT: {
-			if (tank.x != 0) {
-				if (field[tank.x - 1][tank.y] == 0 || field[tank.x - 1][tank.y] == WATER) {
-					Missile newMissile = new Missile(tank, this, tank.direction, tank.x - 1, tank.y);
-					missilelist.put(newMissile.missileID, newMissile);
-				}
-				else if (field[tank.x - 1][tank.y] == WALL) {
-					field[tank.x - 1][tank.y] = 0;
-				}
-				else if (field[tank.x - 1][tank.y] > 0) {
-					tanklist.get(field[tank.x - 1][tank.y] - 1).isAlive = false;
-					field[tank.x - 1][tank.y] = 0;
-				}
-			}
-		}
-		break;
-		case RIGHT: {
-			if (tank.x != BFSize - 1) {
-				if (field[tank.x + 1][tank.y] == 0 || field[tank.x + 1][tank.y] == WATER) {
-					Missile newMissile = new Missile(tank, this, tank.direction, tank.x + 1, tank.y);
-					missilelist.put(newMissile.missileID, newMissile);
-				}
-				else if (field[tank.x + 1][tank.y] == WALL) {
-					field[tank.x + 1][tank.y] = 0;
-				}
-				else if (field[tank.x + 1][tank.y] > 0) {
-					tanklist.get(field[tank.x + 1][tank.y] - 1).isAlive = false;
-					field[tank.x + 1][tank.y] = 0;
-				}
-			}
-		}
-		break;
-		case DOWN: {
-			if (tank.y != 0) {
-				if (field[tank.x][tank.y - 1] == 0 || field[tank.x][tank.y - 1] == WATER) {
-					Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y - 1);
-					missilelist.put(newMissile.missileID, newMissile);
-				}
-				else if (field[tank.x][tank.y - 1] == WALL) {
-					field[tank.x][tank.y - 1] = 0;
-				}
-				else if (field[tank.x][tank.y - 1] > 0) {
-					tanklist.get(field[tank.x][tank.y - 1] - 1).isAlive = false;
-					field[tank.x][tank.y - 1] = 0;
-				}
-			}
-		}
-		break;
-		case UP: {
-			if (tank.y != BFSize - 1) {
-				if (field[tank.x][tank.y + 1] == 0 || field[tank.x][tank.y + 1] == WATER) {
-					Missile newMissile = new Missile(tank, this, tank.direction, tank.x, tank.y + 1);
-					missilelist.put(newMissile.missileID, newMissile);
-				}
-				else if (field[tank.x][tank.y + 1] == WALL) {
-					field[tank.x][tank.y + 1] = 0;
-				}
-				else if (field[tank.x][tank.y + 1] > 0) {
-					tanklist.get(field[tank.x][tank.y + 1] - 1).isAlive = false;
-					field[tank.x][tank.y + 1] = 0;
-				}
-			}
-		}
-		break;
-		}
-		*/
-		
 	}
 	
 	// Update field by moving tanks and missiles
