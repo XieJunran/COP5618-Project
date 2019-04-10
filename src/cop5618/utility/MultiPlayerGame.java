@@ -496,7 +496,7 @@ public class MultiPlayerGame extends JPanel {
 		
 		int gamestatus = in.readInt();
 		
-		if(gamestatus != 0) {
+		if(gamestatus != -1) {
 			
 			setLive(false);
 			JOptionPane.showMessageDialog(null, "Player " + gamestatus + " Wins!");
