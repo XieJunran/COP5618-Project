@@ -17,7 +17,7 @@ public class BattleField implements Runnable {
 	
 	public static final int BF_SIZE = 24;
 	
-	public static final int MAX_PLAYER_NUM = 5;
+	public static final int MAX_PLAYER_NUM = 4;
 	public static final int MIN_PLAYER_NUM = 2;
 	
 	private int field[][] = new int[BF_SIZE][BF_SIZE];
@@ -233,18 +233,25 @@ public class BattleField implements Runnable {
 		tankListLock.lock();
 		clientListLock.lock();
 		try {
-			if(field[0][0] == 0) {
-				bornPosX = 0;
-				bornPosY = 0;
-			}else if(field[BF_SIZE - 1][0] == 0) {
-				bornPosX = BF_SIZE - 1;
-				bornPosY = 0;
-			}else if(field[0][BF_SIZE - 1] == 0) {
-				bornPosX = 0;
-				bornPosY = BF_SIZE - 1;
-			}else {
-				bornPosX = BF_SIZE - 1;
-				bornPosY = BF_SIZE - 1;
+			while(true) {
+				int rand = (int)(Math.random() * MAX_PLAYER_NUM);
+				if(rand == 0 && field[0][0] == 0) {
+					bornPosX = 0;
+					bornPosY = 0;
+					break;
+				}else if(rand == 1 && field[BF_SIZE - 1][0] == 0) {
+					bornPosX = BF_SIZE - 1;
+					bornPosY = 0;
+					break;
+				}else if(rand == 2 && field[0][BF_SIZE - 1] == 0) {
+					bornPosX = 0;
+					bornPosY = BF_SIZE - 1;
+					break;
+				}else if(rand == 3 && field[BF_SIZE - 1][0] == 0){
+					bornPosX = BF_SIZE - 1;
+					bornPosY = BF_SIZE - 1;
+					break;
+				}
 			}
 			Tank tank = SafeTankFactory.newTankInstance(this, Type.values()[playerNum.getAndIncrement()], bornPosX, bornPosY);
 			field[bornPosX][bornPosY] = tank.tankID;
