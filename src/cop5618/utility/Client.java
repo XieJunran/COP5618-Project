@@ -36,7 +36,7 @@ public class Client extends Thread {
 			// Send handshake and bitfield message
 			handshake();
 			
-			while(!bf.isEnded()) {
+			while(bf.isEnded() == 0) {
 				
 				if (fieldUpdated) {
 					out.writeInt(0);
@@ -51,7 +51,7 @@ public class Client extends Thread {
 				
 			}
 			
-			out.writeInt(1);
+			out.writeInt(bf.isEnded());
 			out.flush();
 			
 		} catch (ConnectException e) {
