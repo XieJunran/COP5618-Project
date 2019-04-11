@@ -17,16 +17,23 @@ public class Server {
 		
         ServerSocket listener = new ServerSocket(port);
         BattleField bf = null;
-        int playerCounter = 0; // This indicates how many players once joined the game and  will not decrease even if a game has finished!!!
+        int playerCounter = 0; // This indicates how many players once joined the game.
         
 		try {
 			while(true) {
 				Socket connection = listener.accept();
-				if (playerCounter++ % 5 == 0 || bf.isEnded() != -1) {
+				if (playerCounter++ % 5 == 0) {
 					bf = new BattleField();
 					new Thread(bf).start();
+					playerCounter = 1;
+				}
+				else if (bf.isEnded() != -1) {
+					bf = new BattleField();
+					new Thread(bf).start();
+					++playerCounter;
 				}
 				new Handler(connection, bf).start();
+				Thread.sleep(1000);
 			}
 		} finally {
 			listener.close();
