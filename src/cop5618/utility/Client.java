@@ -65,22 +65,18 @@ public class Client extends Thread {
 			try{
 				out.close();
 				requestSocket.close();
-				System.out.println("Client to [" + "] terminated!");
+				System.out.println("Client to [" + requestSocket.getInetAddress() + "] terminated!");
 			} catch(IOException ioException){
 				ioException.printStackTrace();
+				System.out.println("Disconnect with client [" + requestSocket.getInetAddress() + "]");
 			}
 		}
 	}
   	
-  	private void handshake() {
+  	private void handshake() throws IOException {
   		
-  		System.out.println("Client send [handshake] message");
-  		try {
-  			out.write("BATTLECITY".getBytes());
-  		} catch (IOException e) {
-  			e.printStackTrace();
-  		}
-  		
+  		System.out.println("-----Send handshake message-----");
+  		out.write("BATTLECITY".getBytes());
   	}
   	
   	public void sendBF(int[][] field) {
