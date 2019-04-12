@@ -65,7 +65,6 @@ public class Server {
     			if (!handShake()) return;
     			
        			while(bf.isEnded() == -1) {
-        			
        				int msg_type = in.readInt();
        	      		
        	      		switch (msg_type) {
