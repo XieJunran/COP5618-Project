@@ -35,30 +35,30 @@ public class MultiPlayerGame extends JPanel {
 	// read all image in to the image cache
 	static {
 		
-		Images[0] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P1L.gif")).getImage();
-		Images[1] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P1R.gif")).getImage();
-		Images[2] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P1U.gif")).getImage();
-		Images[3] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P1D.gif")).getImage();
-		Images[4] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P2L.gif")).getImage();
-		Images[5] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P2R.gif")).getImage();
-		Images[6] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P2U.gif")).getImage();
-		Images[7] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P2D.gif")).getImage();
-		Images[8] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P3L.gif")).getImage();
-		Images[9] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P3R.gif")).getImage();
-		Images[10] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P3U.gif")).getImage();
-		Images[11] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P3D.gif")).getImage();
-		Images[12] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P4L.gif")).getImage();
-		Images[13] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P4R.gif")).getImage();
-		Images[14] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P4U.gif")).getImage();
-		Images[15] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P4D.gif")).getImage();
-		Images[16] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P5L.gif")).getImage();
-		Images[17] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P5R.gif")).getImage();
-		Images[18] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P5U.gif")).getImage();
-		Images[19] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/P5D.gif")).getImage();
-		Images[20] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/walls.gif")).getImage();
-		Images[21] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/steels.gif")).getImage();
-		Images[22] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/water.gif")).getImage();
-		Images[23] = new ImageIcon(Game.class.getResource("/cop5618/resources/img/missile.gif")).getImage();
+		Images[0] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P1L.gif")).getImage();
+		Images[1] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P1R.gif")).getImage();
+		Images[2] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P1U.gif")).getImage();
+		Images[3] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P1D.gif")).getImage();
+		Images[4] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P2L.gif")).getImage();
+		Images[5] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P2R.gif")).getImage();
+		Images[6] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P2U.gif")).getImage();
+		Images[7] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P2D.gif")).getImage();
+		Images[8] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P3L.gif")).getImage();
+		Images[9] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P3R.gif")).getImage();
+		Images[10] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P3U.gif")).getImage();
+		Images[11] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P3D.gif")).getImage();
+		Images[12] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P4L.gif")).getImage();
+		Images[13] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P4R.gif")).getImage();
+		Images[14] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P4U.gif")).getImage();
+		Images[15] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P4D.gif")).getImage();
+		Images[16] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P5L.gif")).getImage();
+		Images[17] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P5R.gif")).getImage();
+		Images[18] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P5U.gif")).getImage();
+		Images[19] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/P5D.gif")).getImage();
+		Images[20] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/walls.gif")).getImage();
+		Images[21] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/steels.gif")).getImage();
+		Images[22] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/water.gif")).getImage();
+		Images[23] = new ImageIcon(MultiPlayerGame.class.getResource("/cop5618/resources/img/missile.gif")).getImage();
 		
 	}
 	
