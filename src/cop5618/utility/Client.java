@@ -33,16 +33,17 @@ public class Client extends Thread {
 			out = new DataOutputStream(requestSocket.getOutputStream());
 			out.flush();
 			
-			// Send handshake and bitfield message
+			// Send handshake message
 			handshake();
 			
+			// isEnded() returns -1 if the game continues. Otherwise return ID of winner.
 			while(bf.isEnded() == -1) {
 				
 				if (fieldUpdated) {
-					out.writeInt(-1);
+					out.writeInt(-1); // First write an integer of -1 indicating the game is continuing.
 					for (int i = 0; i < BattleField.BF_SIZE; ++i) {
 						for (int j = 0; j < BattleField.BF_SIZE; ++j) {
-							out.writeInt(field[i][j]);
+							out.writeInt(field[i][j]); // Write the pixel of battlefield one by one.
 						}
 					}
 					out.flush();
@@ -67,18 +68,20 @@ public class Client extends Thread {
 				requestSocket.close();
 				System.out.println("Client to [" + requestSocket.getInetAddress() + "] terminated!");
 			} catch(IOException ioException){
-				ioException.printStackTrace();
 				System.out.println("Disconnect with client [" + requestSocket.getInetAddress() + "]");
 			}
 		}
 	}
   	
+	// Send handshake message to Game client
   	private void handshake() throws IOException {
   		
   		System.out.println("-----Send handshake message-----");
   		out.write("BATTLECITY".getBytes());
+  		out.flush();
   	}
   	
+  	// Called by battlefield to indicate that battlefield is updated and receive updated battlefield.
   	public void sendBF(int[][] field) {
   		
   		this.field = field;
