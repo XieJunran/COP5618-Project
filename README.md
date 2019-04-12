@@ -40,3 +40,14 @@ This project produces a game similar to an very famous video game, Battle City. 
 
 Running Instruction
 ---------------------
+##### Note:
+* All clients and server must be in the same LAN.
+* Temporarily shut down firewall on all involved computers.
+* Need at least two computers to play the game. One computer can only run at most one client. One server and client can be run on the same computer.
+
+##### Step:
+* Build: enter project path in Terminal and type "make".
+* Run Server: type "Server" in Terminal.
+* Run Client: type "MultiPlayerClient " plus server's IP address in Terminal.
+* Start the game: now you may see a window with a start button, click on it.
+* Fight: wait for other players join in, then enjoy the game.
