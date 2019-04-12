@@ -36,7 +36,7 @@ Communication between game client and server.
 
 Project Description
 --------------
-This project produces a game similar to an very famous video game, Battle City. Most elements, including tank, misiile, wall and water, come from the original game. The difference is that Battle City is a local game which allows one or two player to control a tank to move in 4 directions and fire missiles, and fight with enemy tanks controlled by AI to protect the base, chapter by chapter, while this game is multi-player network game. Each play controls a tank, fights with each other and wins the game by standing the last.
+This project produces a game similar to an very famous video game, Battle City. Most elements, including tank, missile, wall and water, come from the original game. The difference is that Battle City is a local game which allows one or two player to control a tank to move in 4 directions and fire missiles, and fight with enemy tanks controlled by AI to protect the base, chapter by chapter, while this game is multi-player network game. Each play controls a tank, fights with each other and wins the game by standing the last.
 
 Running Instruction
 ---------------------
