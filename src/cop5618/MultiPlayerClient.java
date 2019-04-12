@@ -6,9 +6,13 @@ import java.awt.EventQueue;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 // import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Enumeration;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -110,6 +114,73 @@ public class MultiPlayerClient extends JFrame {
 		
 	}
 	
+	private static InetAddress getLocalHostLANAddress() throws UnknownHostException {
+		
+		try {
+			
+			InetAddress candidateAddress = null;
+			
+			for (
+				Enumeration<NetworkInterface> ifaces = NetworkInterface.getNetworkInterfaces();
+				ifaces.hasMoreElements();
+				
+			) {
+				
+				NetworkInterface iface = ifaces.nextElement();
+				
+				for (
+					Enumeration<InetAddress> inetAddrs = iface.getInetAddresses();
+					inetAddrs.hasMoreElements();
+					
+				) {
+					
+					InetAddress inetAddr = inetAddrs.nextElement();
+					
+					if (!inetAddr.isLoopbackAddress()) {
+						
+						if(inetAddr.isSiteLocalAddress()) {
+							
+							return inetAddr;
+							
+						} else if (candidateAddress == null){
+							
+							candidateAddress = inetAddr;
+							
+						}
+						
+					}
+					
+				}
+				
+			}
+			
+			if(candidateAddress != null) {
+				
+				return candidateAddress;
+				
+			}
+			
+			InetAddress jdkSuppliedAddress = InetAddress.getLocalHost();
+			
+			if (jdkSuppliedAddress == null) {
+				
+				throw new UnknownHostException("The JDK InetAddress.getLocalHost() method unexpectedly returned null.");
+				
+			}
+			
+			return jdkSuppliedAddress;
+			
+		} catch (Exception e) {
+			
+			UnknownHostException ue = new UnknownHostException ("Fail to determine LAN Addres: " + e);
+			ue.initCause(e);
+			
+			throw ue;
+			
+		}
+		
+	}
+
 	private void StartGame () {
 		
 		play = new JFrame("Fights!");
@@ -125,10 +196,11 @@ public class MultiPlayerClient extends JFrame {
 			out.flush();
 			
 			System.out.println("HandShaking with the server!");
-			// InetAddress localhost = InetAddress.getLocalHost();
-			String handShaking = "BATTLECITY";
-			// String IP = localhost.getHostAddress().trim();
-			String IP = "127.0.0.1";
+			InetAddress localhost = getLocalHostLANAddress();
+			
+		 	String handShaking = "BATTLECITY";
+			
+			String IP = localhost.getHostAddress().trim();
 			System.out.println(IP);
 			int len = IP.length();
 			
