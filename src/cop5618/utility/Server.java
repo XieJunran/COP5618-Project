@@ -22,6 +22,11 @@ public class Server {
 		try {
 			while(true) {
 				Socket connection = listener.accept();
+				if (bf == null) {
+					bf = new BattleField();
+					new Thread(bf).start();
+					playerCounter = 1;
+				}
 				if (bf.isEnded() != -1) {
 					bf = new BattleField();
 					new Thread(bf).start();
