@@ -502,13 +502,27 @@ public class MultiPlayerGame extends JPanel {
 			
 			setSending(false);
 			
-			JOptionPane.showMessageDialog(
+			if (gamestatus == 0) {
+				
+				JOptionPane.showMessageDialog(
+					null,
+					"Draw!",
+					"Game Over",
+					JOptionPane.INFORMATION_MESSAGE,
+					null
+				);
+				
+			} else {
+				
+				JOptionPane.showMessageDialog(
 					null,
 					"Player " + gamestatus + " Wins!",
 					"Game Over",
 					JOptionPane.INFORMATION_MESSAGE,
 					new ImageIcon(Images[(gamestatus - 1) * 4 + 2])
-			);
+				);
+				
+			}
 			
 			try {
 				
