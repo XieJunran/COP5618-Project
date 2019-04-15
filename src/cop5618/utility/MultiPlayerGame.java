@@ -498,7 +498,13 @@ public class MultiPlayerGame extends JPanel {
 		
 		if(gamestatus != -1) {
 			
-			JOptionPane.showMessageDialog(null, "Player " + gamestatus + " Wins!");
+			JOptionPane.showMessageDialog(
+					null,
+					"Player " + gamestatus + " Wins!",
+					"Game Over",
+					JOptionPane.INFORMATION_MESSAGE,
+					new ImageIcon(Images[(gamestatus - 1) * 4 + 2])
+			);
 			
 			try {
 				
