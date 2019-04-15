@@ -22,15 +22,15 @@ public class Server {
 		try {
 			while(true) {
 				Socket connection = listener.accept();
-				if (playerCounter++ % 5 == 0) {
+				if (bf.isEnded() != -1) {
 					bf = new BattleField();
 					new Thread(bf).start();
 					playerCounter = 1;
 				}
-				else if (bf.isEnded() != -1) {
+				else if (playerCounter++ % 5 == 0) {
 					bf = new BattleField();
 					new Thread(bf).start();
-					++playerCounter;
+					playerCounter = 1;
 				}
 				new Handler(connection, bf).start();
 				Thread.sleep(1000);
