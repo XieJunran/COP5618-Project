@@ -49,6 +49,7 @@ public class BattleField implements Runnable {
 			try {
 				for(Client client : clientList) {
 					client.sendBF(copyOfField);
+					checkEnded();
 					System.out.println("Sent bf to " + client.toString());
 				}
 			}finally {
@@ -311,7 +312,7 @@ public class BattleField implements Runnable {
 		}
 	}
 	
-	public int isEnded() {
+	private void checkEnded(){
 		if(playerNum.get() != 1 || !started) {
 			// System.out.println("Entered!");
 			
@@ -327,12 +328,15 @@ public class BattleField implements Runnable {
 				}
 			}
 			if(draw)
-				return 0;
-			return ended;
+				ended = 0;
 		}
 		finally {
 			tankListLock.unlock();
 		}
+	}
+	
+	public int isEnded() {
+		return ended;
 	}
 	
 }
