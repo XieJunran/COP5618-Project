@@ -315,8 +315,7 @@ public class BattleField implements Runnable {
 	private void checkEnded(){
 		if(playerNum.get() != 1 || !started) {
 			// System.out.println("Entered!");
-			
-			return -1;
+			return;
 		}
 		tankListLock.lock();
 		try {
