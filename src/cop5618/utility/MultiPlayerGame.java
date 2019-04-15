@@ -117,6 +117,7 @@ public class MultiPlayerGame extends JPanel {
 	private boolean fired;
 	
 	private boolean isLive;
+	private boolean isSending;
 	
 	// KeyBoard Listener class used to update the status of the game
 	private class KeyBoardListener extends KeyAdapter {
@@ -164,7 +165,7 @@ public class MultiPlayerGame extends JPanel {
 				}
 				break;
 				
-				case KeyEvent.VK_SPACE: {
+				case KeyEvent.VK_SHIFT: {
 					
 					setFired(true);
 					// System.out.println("Fired");
@@ -186,7 +187,7 @@ public class MultiPlayerGame extends JPanel {
 			
 			System.out.println("Sender Running!");
 			
-			while(isLive()) {
+			while(isSending()) {
 				
 				boolean m = isMoved();
 				boolean f = isFired();
@@ -325,6 +326,7 @@ public class MultiPlayerGame extends JPanel {
 		setLayout(null);
 		
 		setLive(true);
+		setSending(true);
 		
 		addKeyListener(new KeyBoardListener());
 		
@@ -498,6 +500,8 @@ public class MultiPlayerGame extends JPanel {
 		
 		if(gamestatus != -1) {
 			
+			setSending(false);
+			
 			JOptionPane.showMessageDialog(
 					null,
 					"Player " + gamestatus + " Wins!",
@@ -580,6 +584,18 @@ public class MultiPlayerGame extends JPanel {
 	public void setLive(boolean l) {
 		
 		isLive = l;
+		
+	}
+
+	public boolean isSending() {
+		
+		return isSending;
+		
+	}
+
+	public void setSending(boolean isSending) {
+		
+		this.isSending = isSending;
 		
 	}
 	
