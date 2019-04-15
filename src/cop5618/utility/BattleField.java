@@ -151,12 +151,17 @@ public class BattleField implements Runnable {
 					iterator.remove();
 				}else if (field[missile.x][missile.y] > 0) {
 					for(Tank tank : tankList) {
-						if(tank.getPosX() == missile.x && tank.getPosY() == missile.y) {
-							tank.setAlive(false);
-							playerNum.decrementAndGet();
-							field[missile.x][missile.y] = 0;
-							iterator.remove();
-							break;
+						tank.genLock.lock();
+						try{
+							if(tank.getPosX() == missile.x && tank.getPosY() == missile.y) {
+								tank.setAlive(false);
+								playerNum.decrementAndGet();
+								field[missile.x][missile.y] = 0;
+								iterator.remove();
+								break;
+							}
+						}finally{
+							tank.genLock.unlock();
 						}
 					}
 				}
