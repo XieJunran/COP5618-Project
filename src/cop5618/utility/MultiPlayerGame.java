@@ -498,8 +498,19 @@ public class MultiPlayerGame extends JPanel {
 		
 		if(gamestatus != -1) {
 			
-			setLive(false);
 			JOptionPane.showMessageDialog(null, "Player " + gamestatus + " Wins!");
+			
+			try {
+				
+				Thread.sleep(2000);
+				
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+				
+			}
+			
+			setLive(false);
 			
 		} else {
 			
