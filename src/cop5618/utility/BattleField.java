@@ -49,9 +49,9 @@ public class BattleField implements Runnable {
 			try {
 				for(Client client : clientList) {
 					client.sendBF(copyOfField);
-					checkEnded();
 					System.out.println("Sent bf to " + client.toString());
 				}
+				checkEnded();
 			}finally {
 				clientListLock.unlock();
 			}
