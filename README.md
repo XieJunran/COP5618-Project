@@ -45,9 +45,18 @@ Running Instruction
 * Temporarily shut down firewall on all involved computers.
 * Need at least two computers to play the game. One computer can only run at most one client. One server and client can be run on the same computer.
 
-##### Step:
+##### Run with IDE (Eclipse):
+* Load: open the project with Eclipse.
+* Build: build the project.
+* Run Server: run the Server class in package cop5618.utility.
+* Run Client: run the MultiPlayerClient class in package cop5618.
+* Start the game: now you may see a window with a start button, click on it.
+* Fight: wait for other players join in, then enjoy the game.
+
+##### Run with makefile:
 * Build: enter project path in Terminal and type "make".
-* Run Server: type "Server" in Terminal.
-* Run Client: type "MultiPlayerClient " plus server's IP address in Terminal.
+* Enter Classpath: enter the "src" directory by command "cd src"
+* Run Server: type "java cop5618.utility.Server" in Terminal.
+* Run Client: type "java cop5618.MultiPlayerClient " plus server's IP address in Terminal as the only  Argument. For example, "java cop5618.MultiPlayerClient 127.0.0.1" to join the Server runs on localhost.
 * Start the game: now you may see a window with a start button, click on it.
 * Fight: wait for other players join in, then enjoy the game.
