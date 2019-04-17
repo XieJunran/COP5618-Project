@@ -13,8 +13,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -259,8 +261,13 @@ public class MultiPlayerClient extends JFrame {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
+		JLabel label = new JLabel();
+		label.setIcon(new ImageIcon(MultiPlayerClient.class.getResource("/cop5618/resources/img/BattleCityLogo.gif")));
+		label.setBounds((scrw - 430) / 2, (scrh - 160) / 3, 430, 160);
+		panel.add(label);
+		
 		JButton btn = new JButton("start!");
-		btn.setBounds((scrw - 100) / 2, (scrh - 40) / 2, 100, 40);
+		btn.setBounds((scrw - 100) / 2, (scrh - 40) * 2 / 3, 100, 40);
 		btn.addActionListener(e -> StartGame());
 		panel.add(btn);
 		
